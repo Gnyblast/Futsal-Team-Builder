@@ -104,10 +104,11 @@
   <mat-slide-toggle [(ngModel)]="hidePlayerRatings"
     >Hide Player Ratings</mat-slide-toggle
   >
+  <h1>Main Team</h1>
   <div class="results">
     @for (team of getTeams(); track teams) {
     <div class="each-result">
-      <h1>{{ team }}</h1>
+      <h2>{{ team }}</h2>
       <div class="results-details">
         <h4>Attack Rate: {{ getTeam(team).attack }}</h4>
         <h4>Defense Rate: {{ getTeam(team).defense }}</h4>
@@ -137,11 +138,11 @@
     }
   </div>
   <hr class="solid" />
-  <h1>Alternate Team</h1>
+  <h1>Alternate Teams</h1>
   <div class="results">
     @for (team of getTeamsAlternate(); track teamsAlternate) {
     <div class="each-result">
-      <h1>{{ team }}</h1>
+      <h2>{{ team }}</h2>
       <div class="results-details">
         <h4>Attack Rate: {{ getTeamAlternate(team).attack }}</h4>
         <h4>Defense Rate: {{ getTeamAlternate(team).defense }}</h4>
