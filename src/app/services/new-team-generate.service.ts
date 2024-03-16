@@ -18,7 +18,7 @@ export class NewTeamGenerateService {
     TeamB: { squad: [], attack: 0, defense: 0, condition: 0, totalScore: 0 },
   };
 
-  constructor() {}
+  constructor() { }
 
   public generate(playerForms: FormArray): Teams {
     this.players = [];
@@ -33,10 +33,16 @@ export class NewTeamGenerateService {
     }
 
     this.sortByPositions(this.players);
-    this.distributePlayersToTeams(this.goalKeepers);
-    this.distributePlayersToTeams(this.defenders);
-    this.distributePlayersToTeams(this.midfielders);
-    this.distributePlayersToTeams(this.strikers);
+
+    if (this.goalKeepers.length > 0)
+      this.distributePlayersToTeams(this.goalKeepers);
+    if (this.defenders.length > 0)
+      this.distributePlayersToTeams(this.defenders);
+    if (this.midfielders.length > 0)
+      this.distributePlayersToTeams(this.midfielders);
+    if (this.strikers.length > 0)
+      this.distributePlayersToTeams(this.strikers);
+
     return this.teams;
   }
 
@@ -101,7 +107,6 @@ export class NewTeamGenerateService {
       chosenTeam = oppositeTeam;
 
     let randomPlayerIndex = this.randomInt(0, players.length - 1);
-
     players = this.addPlayerToTeam(chosenTeam, randomPlayerIndex, players);
 
     let playersNotMutated = [...players];
