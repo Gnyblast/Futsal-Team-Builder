@@ -4,19 +4,9 @@
     <form (submit)="generateFormFields()">
       <mat-form-field appearance="outline">
         <mat-label># of Players</mat-label>
-        <input
-          matInput
-          type="number"
-          [(ngModel)]="numOfPlayers"
-          name="something"
-        />
+        <input matInput type="number" [(ngModel)]="numOfPlayers" name="something" />
       </mat-form-field>
-      <button
-        mat-raised-button
-        color="accent"
-        type="submit"
-        [disabled]="numOfPlayers < 1"
-      >
+      <button mat-raised-button color="accent" type="submit" [disabled]="numOfPlayers < 1">
         Create
       </button>
       <button mat-raised-button color="warn" type="button" (click)="test()">
@@ -35,13 +25,11 @@
     <ng-container formArrayName="players">
       @for (form of getAsFormArray(playerForms.controls['players']).controls;
       track getAsFormArray(playerForms.controls['players']).controls) {
-      <form
-        [formGroup]="
+      <form [formGroup]="
           getAsFormGroup(
             getAsFormArray(playerForms.controls['players']).controls[$index]
           )
-        "
-      >
+        ">
         <mat-form-field>
           <mat-label>Player Name {{ $index + 1 }}</mat-label>
           <input formControlName="name" matInput type="text" />
@@ -86,12 +74,7 @@
       }
     </ng-container>
     <div class="button-container">
-      <button
-        mat-raised-button
-        color="accent"
-        (click)="generateTeams()"
-        [disabled]="numOfPlayers < 1"
-      >
+      <button mat-raised-button color="accent" (click)="generateTeams()" [disabled]="numOfPlayers < 1">
         Generate
       </button>
       <button mat-raised-button (click)="clean()" [disabled]="numOfPlayers < 1">
@@ -102,9 +85,7 @@
   @if(isGenerated){
   <hr class="solid" />
   <br />
-  <mat-slide-toggle [(ngModel)]="hidePlayerRatings"
-    >Hide Player Ratings</mat-slide-toggle
-  >
+  <mat-slide-toggle [(ngModel)]="hidePlayerRatings">Hide Player Ratings</mat-slide-toggle>
   <h1>Main Teams</h1>
   <div class="results">
     @for (team of getTeams(); track teams) {
@@ -117,10 +98,7 @@
         <h4>Total Score: {{ getTeam(team).totalScore.toFixed(2) }}</h4>
       </div>
       @for (player of getTeam(team).squad; track teams;let i = $index) {
-      <span
-        class="each-player"
-        [ngClass]="hidePlayerRatings ? 'center-content' : ''"
-      >
+      <span class="each-player" [ngClass]="hidePlayerRatings ? 'center-content' : ''">
         <b>{{ i + 1 }}.</b>
         <span class="position">
           {{ getPlayerByName(player).position }}
@@ -152,10 +130,7 @@
       </div>
       @for (player of getTeamAlternate(team).squad; track teamsAlternate;let i =
       $index) {
-      <span
-        class="each-player"
-        [ngClass]="hidePlayerRatings ? 'center-content' : ''"
-      >
+      <span class="each-player" [ngClass]="hidePlayerRatings ? 'center-content' : ''">
         <b>{{ i + 1 }}.</b>
         <span class="position">
           {{ getPlayerByName(player).position }}
@@ -174,4 +149,15 @@
     }
   </div>
   } }
+  <div id="repoInfo">
+    <a class="github-button" href="https://github.com/Gnyblast"
+      data-color-scheme="no-preference: dark; light: dark; dark: dark;" aria-label="Follow @Gnyblast on GitHub">Follow
+      &#64;Gnyblast</a>
+    <a class="github-button" href="https://github.com/Gnyblast/Futsal-Team-Builder/subscription"
+      data-color-scheme="no-preference: dark; light: dark; dark: dark;" data-icon="octicon-eye"
+      aria-label="Watch Gnyblast/Futsal-Team-Builder on GitHub">Watch</a>
+    <a class="github-button" href="https://github.com/Gnyblast/Futsal-Team-Builder"
+      data-color-scheme="no-preference: dark; light: dark; dark: dark;" data-icon="octicon-star"
+      aria-label="Star Gnyblast/Futsal-Team-Builder on GitHub">Star</a>
+  </div>
 </div>
