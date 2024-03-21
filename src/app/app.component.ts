@@ -97,7 +97,7 @@ export class AppComponent {
       }
 
       setTimeout(() => {
-        window.scrollTo(0, document.body.scrollHeight);
+        window.scrollTo(0, (document.documentElement.scrollTop+600));
       }, 200);
     }
   }
