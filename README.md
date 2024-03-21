@@ -13,7 +13,7 @@ This is just a front-end application written with Angular 17 by using Angular Ma
 - Demo button can be used to auto-fill the players from `src/assets/test_players.json` so that you can test the code quicker.
 
 ## Future development plans
-- Adding a save button next to each player
-- Adding a localstorage service that when this save button is clicked it will save the player to the localstorage of the browser
-- Adding a side-bar to the left that will display the players saved on localstorage and you can pick it from there to get added to the list
-- Adding export/import buttons to the localstorage, so that players can get saved to you local machine or imported from the file
+[ ] Adding a save button next to each player
+[ ] Adding a localstorage service that when this save button is clicked it will save the player to the localstorage of the browser
+[ ] Adding a side-bar to the left that will display the players saved on localstorage and you can pick it from there to get added to the list
+[ ] Adding export/import buttons to the localstorage, so that players can get saved to you local machine or imported from the file
