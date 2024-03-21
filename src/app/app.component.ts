@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as testPlayers from '../assets/test_players.json';
-import { TeamGenerateService } from './services/team-generate.service';
 import { Player } from './interfaces/IPlayer';
 import { Positions } from './enums/positions.enum';
 import { Team, Teams } from './interfaces/ITeam';
-import { NewTeamGenerateService } from './services/new-team-generate.service';
+import { TeamGenerateService } from './services/team-generate.service';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +25,7 @@ export class AppComponent {
 
   constructor(
     private teamGenerateService: TeamGenerateService,
-    private newTeamGenereateService: NewTeamGenerateService
+    private newTeamGenereateService: TeamGenerateService
   ) {}
 
   protected playerForms: FormGroup = new FormGroup({

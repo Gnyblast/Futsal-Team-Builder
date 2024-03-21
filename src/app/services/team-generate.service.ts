@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FormArray } from '@angular/forms';
 import { Player } from '../interfaces/IPlayer';
+import { FormArray } from '@angular/forms';
 import { Positions } from '../enums/positions.enum';
 import { Team, Teams } from '../interfaces/ITeam';
 
@@ -9,299 +9,180 @@ import { Team, Teams } from '../interfaces/ITeam';
 })
 export class TeamGenerateService {
   private players: Player[] = [];
-  private strikersSorted: Player[] = [];
-  private midfieldersSorted: Player[] = [];
-  private defendersSorted: Player[] = [];
+  private goalKeepers: Player[] = [] as Player[];
+  private defenders: Player[] = [] as Player[];
+  private midfielders: Player[] = [] as Player[];
+  private strikers: Player[] = [] as Player[];
+  private teams: Teams = {
+    TeamA: { squad: [], attack: 0, defense: 0, condition: 0, totalScore: 0 },
+    TeamB: { squad: [], attack: 0, defense: 0, condition: 0, totalScore: 0 },
+  };
 
-  private goalKeepers: Player[] = [];
-
-  constructor() {}
+  constructor() { }
 
   public generate(playerForms: FormArray): Teams {
-    this.resetValuesToInitial();
-    this.setPlayersList(playerForms);
-    this.calculateTotalPointsAndSortPositions();
-    //console.log([...this.defendersSorted].reverse());
-    //console.log([...this.midfieldersSorted].reverse());
-    //console.log([...this.strikersSorted].reverse());
-    return this.generateTeams();
-  }
-
-  private resetValuesToInitial() {
     this.players = [];
-    this.goalKeepers = [];
-    this.defendersSorted = [];
-    this.midfieldersSorted = [];
-    this.strikersSorted = [];
-  }
-
-  private setPlayersList(playerForms: FormArray) {
-    this.players = [];
-    for (let playerForm of playerForms.controls) {
-      if (playerForm.value['position'] === Positions.GOAL_KEEPER)
-        this.goalKeepers.push(playerForm.value);
-      else this.players.push(playerForm.value);
-    }
-  }
-
-  private calculateTotalPointsAndSortPositions() {
-    for (let player of this.players) {
-      if (player.position === Positions.DEFENDER)
-        this.addPlayerToPositionList(
-          this.defendersSorted,
-          player,
-          ['defenceRating' as keyof Player],
-          'attackRating' as keyof Player
-        );
-
-      if (player.position === Positions.MIDFIELDER)
-        this.addPlayerToPositionList(
-          this.midfieldersSorted,
-          player,
-          ['attackRating' as keyof Player, 'defenceRating' as keyof Player],
-          null
-        );
-
-      if (player.position === Positions.STRIKER)
-        this.addPlayerToPositionList(
-          this.strikersSorted,
-          player,
-          ['attackRating' as keyof Player],
-          'defenceRating' as keyof Player
-        );
-    }
-  }
-
-  private addPlayerToPositionList(
-    playersByPosition: Player[],
-    newPlayer: Player,
-    primaryRatings: (keyof Player)[],
-    secondaryRatring: keyof Player | null
-  ): void {
-    let isAdded = false;
-    if (playersByPosition.length > 0) {
-      for (let player of playersByPosition) {
-        let ratingNewPlater = 0;
-        let ratingExistingPlayer = 0;
-        for (let ratings of primaryRatings) {
-          ratingNewPlater += newPlayer[ratings] as number;
-          ratingExistingPlayer += player[ratings] as number;
-        }
-
-        ratingNewPlater += newPlayer.conditionRating / 2;
-        ratingExistingPlayer += player.conditionRating / 2;
-
-        if (ratingNewPlater > ratingExistingPlayer) {
-          playersByPosition.splice(
-            playersByPosition.indexOf(player),
-            0,
-            newPlayer
-          );
-          isAdded = true;
-          return;
-        }
-
-        if (ratingNewPlater == ratingExistingPlayer) {
-          if (newPlayer.conditionRating > player.conditionRating) {
-            playersByPosition.splice(
-              playersByPosition.indexOf(player),
-              0,
-              newPlayer
-            );
-            isAdded = true;
-            return;
-          }
-
-          if (secondaryRatring) {
-            if (newPlayer[secondaryRatring] > player[secondaryRatring]) {
-              playersByPosition.splice(
-                playersByPosition.indexOf(player),
-                0,
-                newPlayer
-              );
-              isAdded = true;
-              return;
-            }
-          }
-        }
-      }
-
-      if (!isAdded) playersByPosition.push(newPlayer);
-      return;
-    }
-
-    playersByPosition.push(newPlayer);
-  }
-
-  private generateTeams(): Teams {
-    let teams: Teams = {
+    this.teams = {
       TeamA: { squad: [], attack: 0, defense: 0, condition: 0, totalScore: 0 },
       TeamB: { squad: [], attack: 0, defense: 0, condition: 0, totalScore: 0 },
     };
 
+    for (let playerForm of playerForms.controls) {
+      let player = this.calculatePlayerScore(playerForm.value as Player);
+      this.players.push(player);
+    }
+
+    this.sortByPositions(this.players);
+
+    if (this.goalKeepers.length > 0)
+      this.distributePlayersToTeams(this.goalKeepers);
+    if (this.defenders.length > 0)
+      this.distributePlayersToTeams(this.defenders);
+    if (this.midfielders.length > 0)
+      this.distributePlayersToTeams(this.midfielders);
+    if (this.strikers.length > 0)
+      this.distributePlayersToTeams(this.strikers);
+
+    return this.teams;
+  }
+
+  private calculatePlayerScore(player: Player): Player {
+    switch (player.position) {
+      case Positions.GOAL_KEEPER:
+        player.totalScore =
+          player.defenceRating * 1 +
+          player.conditionRating * 0.1 +
+          player.attackRating * 0.1;
+        break;
+      case Positions.DEFENDER:
+        player.totalScore =
+          player.defenceRating * 1 +
+          player.conditionRating * 0.7 +
+          player.attackRating * 0.5;
+        break;
+      case Positions.STRIKER:
+        player.totalScore =
+          player.defenceRating * 0.3 +
+          player.conditionRating * 0.6 +
+          player.attackRating * 1;
+        break;
+      case Positions.MIDFIELDER:
+        player.totalScore =
+          player.defenceRating * 0.6 +
+          player.conditionRating * 0.9 +
+          player.attackRating * 0.6;
+        break;
+    }
+    return player;
+  }
+
+  private sortByPositions(players: Player[]): void {
+    players.forEach((player) => {
+      switch (player.position) {
+        case Positions.GOAL_KEEPER:
+          this.goalKeepers.push(player);
+          break;
+        case Positions.DEFENDER:
+          this.defenders.push(player);
+          break;
+        case Positions.MIDFIELDER:
+          this.midfielders.push(player);
+          break;
+        case Positions.STRIKER:
+          this.strikers.push(player);
+          break;
+      }
+    });
+  }
+
+  private distributePlayersToTeams(players: Player[]): void {
     let team = ['TeamA' as keyof Teams, 'TeamB' as keyof Teams];
-    let chosenTeam = 'TeamA' as keyof Teams;
+    let chosenTeam = team[this.randomInt(0, 1)];
+    let oppositeTeam = this.switchTeam(chosenTeam);
 
-    for (let gk of this.goalKeepers) {
-      teams[chosenTeam].squad.push(gk.name);
-      teams[chosenTeam].attack += gk.attackRating;
-      teams[chosenTeam].defense += gk.defenceRating;
-      teams[chosenTeam].condition += gk.conditionRating;
-      chosenTeam = this.switchTeam(chosenTeam);
-    }
+    if (
+      this.teams[chosenTeam].squad.length >=
+      this.teams[oppositeTeam].squad.length
+    )
+      chosenTeam = oppositeTeam;
 
-    chosenTeam = team[this.randomInt(0, 1)];
-
-    chosenTeam = this.ditributePlayers(
-      teams,
-      chosenTeam,
-      [...this.defendersSorted].reverse(),
-      Positions.DEFENDER
-    );
-    chosenTeam = this.ditributePlayers(
-      teams,
-      chosenTeam,
-      [...this.midfieldersSorted].reverse(),
-      Positions.MIDFIELDER
-    );
-    this.ditributePlayers(
-      teams,
-      chosenTeam,
-      [...this.strikersSorted].reverse(),
-      Positions.STRIKER
-    );
-
-    return teams;
-  }
-
-  private ditributePlayers(
-    teams: Teams,
-    chosenTeam: keyof Teams,
-    players: Player[],
-    position: Positions
-  ): keyof Teams {
     let randomPlayerIndex = this.randomInt(0, players.length - 1);
-    let randomPlayer = players.splice(randomPlayerIndex, 1);
-    //console.log('random pick');
-    //console.log({ ...players });
+    players = this.addPlayerToTeam(chosenTeam, randomPlayerIndex, players);
 
-    this.addPlayerToTeam(teams, chosenTeam, randomPlayer[0]);
-
-    while (players.length > 0) {
+    let playersNotMutated = [...players];
+    for (let i = 0; i < playersNotMutated.length; i++) {
+      let counterPlayerIndex = this.getCounterPlayerIndex(chosenTeam, players);
       chosenTeam = this.switchTeam(chosenTeam);
-      this.equalizeTeams(players, teams, chosenTeam, position);
+      this.addPlayerToTeam(chosenTeam, counterPlayerIndex, players);
     }
-
-    return chosenTeam;
   }
 
-  private equalizeTeams(
-    players: Player[],
-    teams: Teams,
-    team: keyof Teams,
-    position: Positions
-  ): void {
-    let otherTeam = this.switchTeam(team);
-    let attackRateDiff = teams[otherTeam].attack / teams[team].attack;
-    let defenseRateDiff = teams[otherTeam].defense / teams[team].defense;
-    let conditionRateDiff = teams[otherTeam].condition / teams[team].condition;
-    let selectedPlayerIndex = players.length - 1;
-    let systemSelected = false;
-
-    //console.log('*******' + team + '********');
-    //console.log(teams[team].squad);
-    //console.log(teams[otherTeam].squad);
-    //console.log('attack: ' + attackRateDiff);
-    //console.log('defense: ' + defenseRateDiff);
-    //console.log('condition: ' + conditionRateDiff);
-    //console.log([...players]);
-    //console.log('');
-    for (let player of players) {
-      //console.log('evaluvating ' + player.name + ' for ' + position);
-      let attackRateDiffWithPlayer =
-        teams[otherTeam].attack / (teams[team].attack + player.attackRating);
-      let defenseRateDiffWithPlayer =
-        teams[otherTeam].defense / (teams[team].defense + player.defenceRating);
-      let conditionRateDiffWithPlayer =
-        teams[otherTeam].condition /
-        (teams[team].condition + player.conditionRating);
-
-      let minimumDiffAchived = position == Positions.MIDFIELDER ? 0 : 1;
-      if (
-        attackRateDiffWithPlayer < attackRateDiff &&
-        attackRateDiffWithPlayer > 1 &&
-        position != Positions.DEFENDER
-      ) {
-        minimumDiffAchived += 1;
-      }
-
-      if (
-        defenseRateDiffWithPlayer < defenseRateDiff &&
-        defenseRateDiffWithPlayer > 1 &&
-        position != Positions.STRIKER
-      ) {
-        minimumDiffAchived += 1;
-      }
-
-      if (
-        conditionRateDiffWithPlayer < conditionRateDiff &&
-        conditionRateDiff > 1
-      ) {
-        minimumDiffAchived += 1;
-      }
-
-      if (minimumDiffAchived > 2) {
-        //console.log('passed');
-        systemSelected = true;
-        selectedPlayerIndex = players.indexOf(player);
-      }
-    }
-
-    if (!systemSelected) {
-      //console.log("system couldn't determine");
-      if (position == Positions.DEFENDER) {
-        if (defenseRateDiff < 2) {
-          selectedPlayerIndex = 0;
-        } else selectedPlayerIndex = players.length - 1;
-      }
-
-      if (position == Positions.STRIKER) {
-        if (attackRateDiff < 2) {
-          selectedPlayerIndex = 0;
-        } else selectedPlayerIndex = players.length - 1;
-      }
-
-      if (position == Positions.MIDFIELDER) {
-        if (attackRateDiff < 2 || defenseRateDiff < 2) {
-          selectedPlayerIndex = 0;
-        } else selectedPlayerIndex = players.length - 1;
-      }
-    }
-
-    let selectedPlayer = players.splice(selectedPlayerIndex, 1)[0];
-    //console.log('selected: ' + selectedPlayer.name + ' For ' + position);
-    this.addPlayerToTeam(teams, team, selectedPlayer);
+  private randomInt(min: number, max: number): number {
+    //? min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   private addPlayerToTeam(
-    teams: Teams,
     team: keyof Teams,
-    player: Player
-  ): void {
-    teams[team].squad.push(player.name);
-    teams[team].attack += player.attackRating;
-    teams[team].defense += player.defenceRating;
-    teams[team].condition += player.conditionRating;
-  }
-
-  private randomInt(min: number, max: number) {
-    //? min and max included
-    return Math.floor(Math.random() * (max - min + 1) + min);
+    playerIndex: number,
+    players: Player[]
+  ): Player[] {
+    this.teams[team].squad.push(players[playerIndex].name);
+    this.teams[team].attack += players[playerIndex].attackRating;
+    this.teams[team].defense += players[playerIndex].defenceRating;
+    this.teams[team].condition += players[playerIndex].conditionRating;
+    this.teams[team].totalScore += players[playerIndex].totalScore;
+    players.splice(playerIndex, 1);
+    return players;
   }
 
   private switchTeam(team: keyof Teams): keyof Teams {
     return team === 'TeamA'
       ? ('TeamB' as keyof Teams)
       : ('TeamA' as keyof Teams);
+  }
+
+  private getCounterPlayerIndex(team: keyof Teams, players: Player[]): number {
+    let currentTeamScore = this.teams[team].totalScore;
+    let counterTeamScore = this.teams[this.switchTeam(team)].totalScore;
+
+    if (counterTeamScore >= currentTeamScore)
+      return this.pickWorstPlayer(players);
+
+    let counterPlayerIndex = players.findIndex((player) => {
+      return currentTeamScore <= counterTeamScore + player.totalScore;
+    });
+
+    if (counterPlayerIndex == -1) return this.pickBestPlayer(players);
+
+    return counterPlayerIndex;
+  }
+
+  private pickWorstPlayer(players: Player[]): number {
+    let worstScore = 0;
+    let worstPlayerIndex = 0;
+
+    players.forEach((player, index) => {
+      if (worstScore >= player.totalScore) {
+        worstScore = player.totalScore;
+        worstPlayerIndex = index;
+      }
+    });
+
+    return worstPlayerIndex;
+  }
+
+  private pickBestPlayer(players: Player[]): number {
+    let bestScore = 0;
+    let bestPlayerIndex = 0;
+
+    players.forEach((player, index) => {
+      if (bestScore <= player.totalScore) {
+        bestScore = player.totalScore;
+        bestPlayerIndex = index;
+      }
+    });
+
+    return bestPlayerIndex;
   }
 }
