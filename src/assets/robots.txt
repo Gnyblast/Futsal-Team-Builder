@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /private/
+Disallow: /config/
+Disallow: /scripts/
+Disallow: /temp/
+Disallow: /stats/
