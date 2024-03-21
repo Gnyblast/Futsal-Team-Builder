@@ -1,7 +1,7 @@
 # Futsal-Team-Builder
 Live: http://futsal.logeks.com
 
-This is just a front-end application written with Angular 17 to generate random but as balanced as possible teams for playing football. As much as it tries to make balanced teams, there is always some randomness in the code, so that things will get generated differently everytime. Which brings us to a point that might never exactly balanced but as close as possible.
+This is just a front-end application written with Angular 17 by using Angular Material Components to generate random but as balanced as possible teams for playing football. As much as it tries to make balanced teams, there is always some randomness in the code, so that things will get generated differently everytime. Which brings us to a point that might never exactly balanced but as close as possible.
 
 - Each player will have 3 rates: attack, defense and condition with a position information
 - This helps the application to use a biased calculation to generate a total score for a player then do the distribution depending on the positions as equally as possible
