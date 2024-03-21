@@ -9,7 +9,7 @@ This is just a front-end application written with Angular 17 by using Angular Ma
 
 # Development
 - Anyone with a Typescript knowledge is welcome to extend the application
-- You an just clone and run `npm install && npm run start` to start the test server, if you have `npm` and `angular 17` pre-installed
+- You can just clone and run `npm install && npm run start` to start the test server, if you have `npm` and `angular 17` pre-installed
 - Demo button can be used to auto-fill the players from `src/assets/test_players.json` so that you can test the code quicker.
 
 ## Future development plans
