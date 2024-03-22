@@ -8,6 +8,10 @@ This is just a front-end application written with Angular 17 by using Angular Ma
 - You can hide the player ratings at the end of the generation with a toggle button before sending it off to your lads ;)
 
 # Development
+- This application is written on Stackblitz. You can use the URL to directly start developing there: https://stackblitz.com/~/github.com/Gnyblast/Futsal-Team-Builder
+
+*OR*
+
 - Anyone with a Typescript knowledge is welcome to extend the application
 - You can just clone and run `npm install && npm run start` to start the test server, if you have `npm` and `angular 17` pre-installed
 - Demo button can be used to auto-fill the players from `src/assets/test_players.json` so that you can test the code quicker.
