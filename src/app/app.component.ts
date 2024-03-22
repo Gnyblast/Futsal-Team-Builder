@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as testPlayers from '../assets/test_players.json';
 import { Player } from './interfaces/IPlayer';
@@ -24,8 +24,7 @@ export class AppComponent {
   protected hidePlayerRatings: boolean = false;
 
   constructor(
-    private teamGenerateService: TeamGenerateService,
-    private newTeamGenereateService: TeamGenerateService
+    private teamGenereateService: TeamGenerateService
   ) {}
 
   protected playerForms: FormGroup = new FormGroup({
@@ -79,24 +78,27 @@ export class AppComponent {
       //  this.playerForms.controls['players'] as FormArray
       //);
 
-      this.teams = this.newTeamGenereateService.generate(
+      this.teams = this.teamGenereateService.generate(
         this.playerForms.controls['players'] as FormArray
       );
 
-      this.teamsAlternate = this.newTeamGenereateService.generate(
+      this.teamsAlternate = this.teamGenereateService.generate(
         this.playerForms.controls['players'] as FormArray
       );
 
       while (
         JSON.stringify(this.teams) == JSON.stringify(this.teamsAlternate)
       ) {
-        this.teamsAlternate = this.newTeamGenereateService.generate(
+        this.teamsAlternate = this.teamGenereateService.generate(
           this.playerForms.controls['players'] as FormArray
         );
       }
 
+      //? scroll to the same position always to display results but also keep generate button in display
       setTimeout(() => {
-        window.scrollTo(0, (document.documentElement.scrollTop+600));
+        let resultsHeight = document.querySelector<HTMLElement>(".results")?.offsetHeight;
+        let generateButtonPosition = document.querySelector<HTMLElement>("#generate")?.offsetTop;
+        window.scrollTo(0, ((generateButtonPosition?generateButtonPosition:0)-(resultsHeight?resultsHeight:0)/5));
       }, 200);
     }
   }

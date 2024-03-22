@@ -42,6 +42,7 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
+  margin-bottom: 10px;
 }
 
 .results {
@@ -165,6 +166,9 @@
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
+  .container {
+    gap:0px;
+  }
   .container form {
     flex-direction: row;
   }
