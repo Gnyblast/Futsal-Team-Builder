@@ -23,13 +23,13 @@ export class AppComponent {
   protected teamsAlternate: Teams = {} as Teams;
   protected hidePlayerRatings: boolean = false;
 
-  constructor(
-    private teamGenereateService: TeamGenerateService
-  ) {}
-
   protected playerForms: FormGroup = new FormGroup({
     players: new FormArray<FormGroup>([]),
   });
+
+  constructor(
+    private teamGenereateService: TeamGenerateService
+  ) {}
 
   protected generateFormFields(): void {
     let formArr = new FormArray<FormGroup>([]);
@@ -87,7 +87,8 @@ export class AppComponent {
       );
 
       while (
-        JSON.stringify(this.teams) == JSON.stringify(this.teamsAlternate)
+        (this.teams.TeamA.squad.sort().join(",") === this.teamsAlternate.TeamA.squad.sort().join(",")) ||
+        (this.teams.TeamA.squad.sort().join(",") === this.teamsAlternate.TeamB.squad.sort().join(","))
       ) {
         this.teamsAlternate = this.teamGenereateService.generate(
           this.playerForms.controls['players'] as FormArray
