@@ -87,8 +87,8 @@ export class AppComponent {
       );
 
       while (
-        (this.teams.TeamA.squad.sort().join(",") === this.teamsAlternate.TeamA.squad.sort().join(",")) ||
-        (this.teams.TeamA.squad.sort().join(",") === this.teamsAlternate.TeamB.squad.sort().join(","))
+        ([...this.teams.TeamA.squad].sort().join(",") === [...this.teamsAlternate.TeamA.squad].sort().join(",")) ||
+        ([...this.teams.TeamA.squad].sort().join(",") === [...this.teamsAlternate.TeamB.squad].sort().join(","))
       ) {
         this.teamsAlternate = this.teamGenereateService.generate(
           this.playerForms.controls['players'] as FormArray
