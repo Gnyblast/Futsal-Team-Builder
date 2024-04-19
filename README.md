@@ -40,7 +40,7 @@ Demo button can be used to auto-fill the players from `src/assets/test_players.j
 
     - Podman:
         - `podman build -t futsal-builder:latest -f podman/Containerfile .`
-        - `podman run -v ./:/app futsal-builder:latest`
+        - `podman run -v ./:/app futsal-builder:latest build`
 
 And results must be in `dist` directory of your project top-level.
 
