@@ -18,13 +18,13 @@ This is just a front-end application written with Angular 17 by using Angular Ma
 
 From the Project Top-Level:
 - First build the image: `sudo docker build -t futsal-builder:latest -f docker/Dockerfile .`
-- And run it to start the development server: `sudo docker run -d -v ./:/app -p 4200:4200 futsal-builder:latest`
+- And run it to start the development server: `sudo docker run -v ./:/app -p 4200:4200 futsal-builder:latest`, you can add `-d` if you want detached
 
 *OR With Podman*
 
 From the Project Top-Level:
 - First build the image: `podman build -t futsal-builder:latest -f podman/Containerfile .`
-- And run it to start the development server: `podman run -d -v ./:/app -p 4200:4200 futsal-builder:latest`
+- And run it to start the development server: `podman run -v ./:/app -p 4200:4200 futsal-builder:latest`, you can add `-d` if you want detached
   
 Anyone with a Typescript knowledge is welcome to extend the application
 
