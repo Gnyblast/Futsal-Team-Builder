@@ -30,6 +30,20 @@ Anyone with a Typescript knowledge is welcome to extend the application
 
 Demo button can be used to auto-fill the players from `src/assets/test_players.json` so that you can test the code quicker.
 
+# Production Build
+1. You can just clone and run `npm install && npm run build` to start the build, if you have `npm` and `angular 17` pre-installed.
+2. You can use either `podman` or `docker` to build the image first as follows (note that this is same image as development one, so if you already have it, you don't need to re-build the image):
+
+    - Docker:
+        - `sudo docker build -t futsal-builder:latest -f docker/Dockerfile .`
+        - `sudo docker run -v ./:/app -p 4200:4200 futsal-builder:latest build`
+
+    - Podman:
+        - `podman build -t futsal-builder:latest -f podman/Containerfile .`
+        - `podman run -v ./:/app -p 4200:4200 futsal-builder:latest`
+
+    And results must be in `dist` directory of your project top-level.
+
 ## Future development plans
 - [ ] Adding a save button next to each player
 - [ ] Adding a localstorage service that when this save button is clicked it will save the player to the localstorage of the browser
