@@ -32,7 +32,7 @@ Demo button can be used to auto-fill the players from `src/assets/test_players.j
 
 # Production Build
 1. You can just clone and run `npm install && npm run build` to start the build, if you have `npm` and `angular 17` pre-installed.
-2. You can use either `podman` or `docker` to build the image first as follows (note that this is same image as development one, so if you already have it, you don't need to re-build the image):
+2. You can use either `podman` or `docker` to build the image first as follows (note that this is same image as development one, so if you already have it, you don't need to re-build the image) and run it with `build` command:
 
     - Docker:
         - `sudo docker build -t futsal-builder:latest -f docker/Dockerfile .`
