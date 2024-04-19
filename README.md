@@ -36,13 +36,13 @@ Demo button can be used to auto-fill the players from `src/assets/test_players.j
 
     - Docker:
         - `sudo docker build -t futsal-builder:latest -f docker/Dockerfile .`
-        - `sudo docker run -v ./:/app -p 4200:4200 futsal-builder:latest build`
+        - `sudo docker run -v ./:/app futsal-builder:latest build`
 
     - Podman:
         - `podman build -t futsal-builder:latest -f podman/Containerfile .`
-        - `podman run -v ./:/app -p 4200:4200 futsal-builder:latest`
+        - `podman run -v ./:/app futsal-builder:latest`
 
-    And results must be in `dist` directory of your project top-level.
+And results must be in `dist` directory of your project top-level.
 
 ## Future development plans
 - [ ] Adding a save button next to each player
