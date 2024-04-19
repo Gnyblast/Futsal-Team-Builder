@@ -13,6 +13,18 @@ This is just a front-end application written with Angular 17 by using Angular Ma
 *OR*
 
 - You can just clone and run `npm install && npm run start` to start the test server, if you have `npm` and `angular 17` pre-installed
+
+*OR With Docker*
+
+From the Project Top-Level:
+- First build the image: `sudo docker build -t futsal-builder:latest -f docker/Dockerfile .`
+- And run it to start the development server: `sudo docker run -d -v ./:/app -p 4200:4200 futsal-builder:latest`
+
+*OR With Podman*
+
+From the Project Top-Level:
+- First build the image: `podman build -t futsal-builder:latest -f podman/Containerfile .`
+- And run it to start the development server: `podman run -d -v ./:/app -p 4200:4200 futsal-builder:latest`
   
 Anyone with a Typescript knowledge is welcome to extend the application
 
