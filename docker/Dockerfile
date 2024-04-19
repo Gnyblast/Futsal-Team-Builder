@@ -5,7 +5,7 @@ COPY . .
 
 RUN npm install -g @angular/cli@17
 RUN npm cache clean --force
-RUN npm update
+RUN rn -rf ./node_modules
 RUN npm install --force
 
 EXPOSE 4200
