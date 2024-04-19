@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . .
 
 RUN npm install -g @angular/cli@17
-RUN npm cache clean
+RUN npm cache clean --force
 RUN npm update
 RUN npm install --force
 
