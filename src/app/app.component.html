@@ -80,6 +80,7 @@
       <button mat-raised-button (click)="clean()" [disabled]="numOfPlayers < 1">
         Clean
       </button>
+      <mat-slide-toggle [(ngModel)]="forcedBalance" [ngModelOptions]="{standalone: true}">Force Balanced Teams</mat-slide-toggle>
     </div>
   </ng-container>
   @if(isGenerated){

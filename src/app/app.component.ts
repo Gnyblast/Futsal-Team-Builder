@@ -22,6 +22,7 @@ export class AppComponent {
   protected teams: Teams = {} as Teams;
   protected teamsAlternate: Teams = {} as Teams;
   protected hidePlayerRatings: boolean = false;
+  protected forcedBalance: boolean = false
 
   protected playerForms: FormGroup = new FormGroup({
     players: new FormArray<FormGroup>([]),
@@ -29,7 +30,7 @@ export class AppComponent {
 
   constructor(
     private teamGenereateService: TeamGenerateService
-  ) {}
+  ) { }
 
   protected generateFormFields(): void {
     let formArr = new FormArray<FormGroup>([]);
@@ -74,33 +75,85 @@ export class AppComponent {
 
     if (isAllValid) {
       this.isGenerated = true;
-      //this.teams = this.teamGenerateService.generate(
-      //  this.playerForms.controls['players'] as FormArray
-      //);
+      
+      if (this.forcedBalance)
+        this.generateTeamsForceBalanced()
 
-      this.teams = this.teamGenereateService.generate(
-        this.playerForms.controls['players'] as FormArray
-      );
-
-      this.teamsAlternate = this.teamGenereateService.generate(
-        this.playerForms.controls['players'] as FormArray
-      );
-
-      while (
-        ([...this.teams.TeamA.squad].sort().join(",") === [...this.teamsAlternate.TeamA.squad].sort().join(",")) ||
-        ([...this.teams.TeamA.squad].sort().join(",") === [...this.teamsAlternate.TeamB.squad].sort().join(","))
-      ) {
-        this.teamsAlternate = this.teamGenereateService.generate(
-          this.playerForms.controls['players'] as FormArray
-        );
-      }
+      if (!this.forcedBalance)
+        this.generateTeamsNotForceBalanced()
 
       //? scroll to the same position always to display results but also keep generate button in display
       setTimeout(() => {
         let resultsHeight = document.querySelector<HTMLElement>(".results")?.offsetHeight;
         let generateButtonPosition = document.querySelector<HTMLElement>("#generate")?.offsetTop;
-        window.scrollTo(0, ((generateButtonPosition?generateButtonPosition:0)-(resultsHeight?resultsHeight:0)/5));
+        window.scrollTo(0, ((generateButtonPosition ? generateButtonPosition : 0) - (resultsHeight ? resultsHeight : 0) / 5));
       }, 200);
+    }
+  }
+
+  protected generateTeamsNotForceBalanced(): void {
+    console.log("Not forced")
+    this.teams = this.teamGenereateService.generate(
+      this.playerForms.controls['players'] as FormArray
+    );
+
+    this.teamsAlternate = this.teamGenereateService.generate(
+      this.playerForms.controls['players'] as FormArray
+    );
+
+    while (
+      ([...this.teams.TeamA.squad].sort().join(",") === [...this.teamsAlternate.TeamA.squad].sort().join(",")) ||
+      ([...this.teams.TeamA.squad].sort().join(",") === [...this.teamsAlternate.TeamB.squad].sort().join(","))
+    ) {
+      this.teamsAlternate = this.teamGenereateService.generate(
+        this.playerForms.controls['players'] as FormArray
+      );
+    }
+  }
+
+  protected generateTeamsForceBalanced(): void {
+    console.log("Forced")
+
+    this.teams = this.teamGenereateService.generate(
+      this.playerForms.controls['players'] as FormArray
+    );
+
+    this.teamsAlternate = this.teamGenereateService.generate(
+      this.playerForms.controls['players'] as FormArray
+    );
+
+    for (let i = 0; i < 100; i++) {
+      let diff = Math.abs(this.teams.TeamA.totalScore - this.teams.TeamB.totalScore)
+      let avarage = (this.teams.TeamA.totalScore + this.teams.TeamB.totalScore) / 2
+      let percentageDiff = (diff / avarage) * 100
+
+      let diffAlternate = Math.abs(this.teamsAlternate.TeamA.totalScore - this.teamsAlternate.TeamB.totalScore)
+      let avarageAlternate = (this.teamsAlternate.TeamA.totalScore + this.teamsAlternate.TeamB.totalScore) / 2
+      let percentageDiffAlternate = (diffAlternate / avarageAlternate) * 100
+
+      let teams = this.teamGenereateService.generate(
+        this.playerForms.controls['players'] as FormArray
+      );
+
+      let diffNew = Math.abs(teams.TeamA.totalScore - teams.TeamB.totalScore)
+      let avarageNew = (teams.TeamA.totalScore + teams.TeamB.totalScore) / 2
+      let percentageDiffNew = (diffNew / avarageNew) * 100
+
+      if (
+        percentageDiffNew < percentageDiff &&
+        (([...this.teams.TeamA.squad].sort().join(",") != [...teams.TeamA.squad].sort().join(",")) &&
+          ([...this.teams.TeamA.squad].sort().join(",") != [...teams.TeamB.squad].sort().join(",")))
+      )
+        this.teams = teams
+
+      if (
+        percentageDiffNew < percentageDiffAlternate+5 &&
+        (([...this.teams.TeamA.squad].sort().join(",") != [...teams.TeamA.squad].sort().join(",")) &&
+          ([...this.teams.TeamA.squad].sort().join(",") != [...teams.TeamB.squad].sort().join(",")))
+      ) {
+        this.teamsAlternate = teams
+      }
+
     }
   }
 
