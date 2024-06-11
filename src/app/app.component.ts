@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgxCookieManagerService } from '@localia/ngx-cookie-consent';
 import * as testPlayers from '../assets/test_players.json';
-import { Player } from './interfaces/IPlayer';
 import { Positions } from './enums/positions.enum';
+import { Player } from './interfaces/IPlayer';
 import { Team, Teams } from './interfaces/ITeam';
 import { TeamGenerateService } from './services/team-generate.service';
 
@@ -11,7 +12,7 @@ import { TeamGenerateService } from './services/team-generate.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private mockPlayerList: Player[] = testPlayers.players;
 
   protected isFirst: boolean = true;
@@ -22,15 +23,61 @@ export class AppComponent {
   protected teams: Teams = {} as Teams;
   protected teamsAlternate: Teams = {} as Teams;
   protected hidePlayerRatings: boolean = false;
-  protected forcedBalance: boolean = false
+  protected forcedBalance: boolean = false;
 
   protected playerForms: FormGroup = new FormGroup({
     players: new FormArray<FormGroup>([]),
   });
 
   constructor(
-    private teamGenereateService: TeamGenerateService
+    private teamGenereateService: TeamGenerateService,
+    private cookieConsentService: NgxCookieManagerService
   ) { }
+
+  public ngOnInit(): void {
+    if (this.cookieConsentService.getCookie("ga"))
+      this.enableConsentGtags();
+
+    if (!this.cookieConsentService.getCookie("ga"))
+      this.disableConsentGtags();
+
+    this.cookieConsentService.cookieUpdated$.subscribe(cookie => {
+      if (cookie.name === "ga" && cookie.state) {
+        this.enableConsentGtags();
+        return;
+      }
+
+      if (cookie.name === "ga" && !cookie.state) {
+        this.disableConsentGtags();
+        return;
+      }
+    });
+
+  }
+
+  private enableConsentGtags(): void {
+    this.gtag('consent', 'update', {
+      "ad_user_data": 'granted',
+      "ad_personalization": 'granted',
+      "ad_storage": 'granted',
+      "analytics_storage": 'granted'
+    });
+  }
+
+  private disableConsentGtags(): void {
+    this.gtag('consent', 'default', {
+      "ad_user_data": 'denied',
+      "ad_personalization": 'denied',
+      "ad_storage": 'denied',
+      "analytics_storage": 'denied',
+      "wait_for_update": 500,
+    });
+  }
+
+  private gtag(...args: any): void {
+    let datLayer = (window as any).dataLayer || [];
+    datLayer.push(...args);
+  }
 
   protected generateFormFields(): void {
     let formArr = new FormArray<FormGroup>([]);
@@ -75,12 +122,12 @@ export class AppComponent {
 
     if (isAllValid) {
       this.isGenerated = true;
-      
+
       if (this.forcedBalance)
-        this.generateTeamsForceBalanced()
+        this.generateTeamsForceBalanced();
 
       if (!this.forcedBalance)
-        this.generateTeamsNotForceBalanced()
+        this.generateTeamsNotForceBalanced();
 
       //? scroll to the same position always to display results but also keep generate button in display
       setTimeout(() => {
@@ -92,7 +139,7 @@ export class AppComponent {
   }
 
   protected generateTeamsNotForceBalanced(): void {
-    console.log("Not forced")
+    console.log("Not forced");
     this.teams = this.teamGenereateService.generate(
       this.playerForms.controls['players'] as FormArray
     );
@@ -112,7 +159,7 @@ export class AppComponent {
   }
 
   protected generateTeamsForceBalanced(): void {
-    console.log("Forced")
+    console.log("Forced");
 
     this.teams = this.teamGenereateService.generate(
       this.playerForms.controls['players'] as FormArray
@@ -123,35 +170,35 @@ export class AppComponent {
     );
 
     for (let i = 0; i < 100; i++) {
-      let diff = Math.abs(this.teams.TeamA.totalScore - this.teams.TeamB.totalScore)
-      let avarage = (this.teams.TeamA.totalScore + this.teams.TeamB.totalScore) / 2
-      let percentageDiff = (diff / avarage) * 100
+      let diff = Math.abs(this.teams.TeamA.totalScore - this.teams.TeamB.totalScore);
+      let avarage = (this.teams.TeamA.totalScore + this.teams.TeamB.totalScore) / 2;
+      let percentageDiff = (diff / avarage) * 100;
 
-      let diffAlternate = Math.abs(this.teamsAlternate.TeamA.totalScore - this.teamsAlternate.TeamB.totalScore)
-      let avarageAlternate = (this.teamsAlternate.TeamA.totalScore + this.teamsAlternate.TeamB.totalScore) / 2
-      let percentageDiffAlternate = (diffAlternate / avarageAlternate) * 100
+      let diffAlternate = Math.abs(this.teamsAlternate.TeamA.totalScore - this.teamsAlternate.TeamB.totalScore);
+      let avarageAlternate = (this.teamsAlternate.TeamA.totalScore + this.teamsAlternate.TeamB.totalScore) / 2;
+      let percentageDiffAlternate = (diffAlternate / avarageAlternate) * 100;
 
       let teams = this.teamGenereateService.generate(
         this.playerForms.controls['players'] as FormArray
       );
 
-      let diffNew = Math.abs(teams.TeamA.totalScore - teams.TeamB.totalScore)
-      let avarageNew = (teams.TeamA.totalScore + teams.TeamB.totalScore) / 2
-      let percentageDiffNew = (diffNew / avarageNew) * 100
+      let diffNew = Math.abs(teams.TeamA.totalScore - teams.TeamB.totalScore);
+      let avarageNew = (teams.TeamA.totalScore + teams.TeamB.totalScore) / 2;
+      let percentageDiffNew = (diffNew / avarageNew) * 100;
 
       if (
         percentageDiffNew < percentageDiff &&
         (([...this.teams.TeamA.squad].sort().join(",") != [...teams.TeamA.squad].sort().join(",")) &&
           ([...this.teams.TeamA.squad].sort().join(",") != [...teams.TeamB.squad].sort().join(",")))
       )
-        this.teams = teams
+        this.teams = teams;
 
       if (
-        percentageDiffNew < percentageDiffAlternate+5 &&
+        percentageDiffNew < percentageDiffAlternate + 5 &&
         (([...this.teams.TeamA.squad].sort().join(",") != [...teams.TeamA.squad].sort().join(",")) &&
           ([...this.teams.TeamA.squad].sort().join(",") != [...teams.TeamB.squad].sort().join(",")))
       ) {
-        this.teamsAlternate = teams
+        this.teamsAlternate = teams;
       }
 
     }
