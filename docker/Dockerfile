@@ -2,6 +2,7 @@ FROM node:lts-alpine
 
 WORKDIR /app
 COPY . /var/app
+COPY ./scripts/entrypoint.sh /bin/entrypoint.sh
 
 RUN npm install -g @angular/cli@17
 RUN npm cache clean --force
@@ -10,5 +11,5 @@ RUN cd /var/app && npm install --force
 
 EXPOSE 4200
 
-ENTRYPOINT ["cp","-r", "/var/app/node_modules", "/app/node_modules","&&", "npm", "run"]
+ENTRYPOINT ["/bin/entrypoint.sh"]
 CMD ["start"]
