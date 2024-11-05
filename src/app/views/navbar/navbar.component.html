@@ -1,0 +1,14 @@
+<div id="navBar">
+     @if(!authService.isAuthenticated()){
+     <button mat-raised-button color="accent" type="button" (click)="openDialog(loginComponent)">
+          Login
+     </button>
+     <button mat-raised-button color="accent" type="button" (click)="openDialog(registerComponent)">
+          Register
+     </button>
+     } @else {
+     <button mat-raised-button color="accent" type="button" (click)="logOut()">
+          Logout
+     </button>
+     }
+</div>

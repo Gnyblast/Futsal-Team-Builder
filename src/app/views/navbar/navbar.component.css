@@ -1,0 +1,11 @@
+#navBar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 5px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    justify-content: flex-end;
+}

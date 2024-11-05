@@ -1,0 +1,48 @@
+@if(loginShow){
+    <form [formGroup]="loginForm" (submit)="login()">
+        <h3>Login</h3>
+        @if(dialogResponse){
+        <span id="response">
+            {{ dialogResponse }}
+        </span>
+        @if(notVerified){
+            <a (click)="resendEmail()">Resend Email</a>
+        }
+        }
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password">
+        </mat-form-field>
+    
+        <button mat-raised-button color="accent" type="submit">Login</button>
+        <button mat-raised-button color="warn" type="button" (click)="loginShow = !loginShow">Forgot Password</button>
+    
+        <cool-google-button color="dark" (click)="loginWithGooogle()">
+            Login with Google
+        </cool-google-button>
+    </form>
+} @else {
+    <form [formGroup]="resetForm" (submit)="resetPassword()">
+        <h3>Login</h3>
+        @if(dialogResponse){
+        <span id="response">
+            {{ dialogResponse }}
+        </span>
+    }
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email">
+        </mat-form-field>
+    
+        <button mat-raised-button color="accent" type="submit">Submit</button>
+        <button mat-raised-button color="warn" type="button" (click)="loginShow = !loginShow">Back</button>
+    
+        <cool-google-button color="dark" (click)="loginWithGooogle()">
+            Login with Google
+        </cool-google-button>
+    </form>
+}

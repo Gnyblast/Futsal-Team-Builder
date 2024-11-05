@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
+import { CoolGoogleButtonComponent } from '@angular-cool/social-login-buttons';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 import { CookieDetail, CookieItem, NgxCookieConsentModule } from '@localia/ngx-cookie-consent';
 import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
+import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
+import { MaterialModule } from './material.module';
+import { LoginComponent } from './views/login/login.component';
+import { NavbarComponent } from "./views/navbar/navbar.component";
+import { RegisterComponent } from './views/register/register.component';
+
 
 const cookieConfig = {
   showCookieDetails: false,
@@ -37,23 +39,25 @@ const cookieConfig = {
 };
 
 @NgModule({
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    LoginComponent,
+    RegisterComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSlideToggleModule,
     FormsModule,
-    MatDividerModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSelectModule,
     RouterModule.forRoot([{ path: '', component: AppComponent }]),
     NgxCookieConsentModule.forRoot(cookieConfig),
-    NgxGoogleAnalyticsModule.forRoot('G-FQW4MXXGBY')
+    NgxGoogleAnalyticsModule.forRoot('G-FQW4MXXGBY'),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    MaterialModule,
+    CoolGoogleButtonComponent,
   ],
-  declarations: [AppComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '@angular/fire/auth';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxCookieManagerService } from '@localia/ngx-cookie-consent';
 import * as testPlayers from '../assets/test_players.json';
@@ -13,6 +14,7 @@ import { TeamGenerateService } from './services/team-generate.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
+  protected user: User | null = null;
   private mockPlayerList: Player[] = testPlayers.players;
 
   protected isFirst: boolean = true;
@@ -31,10 +33,11 @@ export class AppComponent implements OnInit {
 
   constructor(
     private teamGenereateService: TeamGenerateService,
-    private cookieConsentService: NgxCookieManagerService
+    private cookieConsentService: NgxCookieManagerService,
   ) { }
 
   public ngOnInit(): void {
+
     if (this.cookieConsentService.getCookie("ga"))
       this.enableConsentGtags();
 

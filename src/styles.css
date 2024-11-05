@@ -2,7 +2,6 @@
 
 * {
   font-family: 'Roboto', Arial, sans-serif;
-  color: #616161;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -17,7 +16,7 @@ body {
   flex-direction: row;
 }
 
-router-outlet + *  {
+router-outlet+* {
   padding: 0 16px;
 }
 
@@ -31,7 +30,8 @@ h2 {
   font-size: 20px;
 }
 
-h1, h2 {
+h1,
+h2 {
   font-weight: lighter;
 }
 
@@ -70,7 +70,8 @@ label {
 }
 
 /* Button */
-.button, button {
+.button,
+button {
   display: inline-flex;
   align-items: center;
   padding: 8px 16px;
@@ -82,12 +83,14 @@ label {
   border: none;
 }
 
-.button:hover, button:hover {
+.button:hover,
+button:hover {
   opacity: 0.8;
   font-weight: normal;
 }
 
-.button:disabled, button:disabled {
+.button:disabled,
+button:disabled {
   opacity: 0.5;
   cursor: auto;
 }
@@ -124,7 +127,8 @@ app-top-bar h1 {
 
 /* Checkout Cart, Shipping Prices */
 
-.cart-item, .shipping-item {
+.cart-item,
+.shipping-item {
   width: 100%;
   min-width: 400px;
   max-width: 450px;
@@ -137,11 +141,17 @@ app-top-bar h1 {
   background-color: #EEEEEE;
 }
 
-
 /*
 Copyright Google LLC. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at https://angular.io/license
 */
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
