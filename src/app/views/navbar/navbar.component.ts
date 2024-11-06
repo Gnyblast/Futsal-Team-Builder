@@ -2,6 +2,8 @@ import { ComponentType } from '@angular/cdk/portal';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import testPlayers from '../../../assets/test_players.json';
+import { PlayerContainer } from '../../interfaces/IPlayer';
 import { AuthService } from '../../services/auth.service';
 import { FirestoreService } from '../../services/firestore.service';
 import { LoginComponent } from '../login/login.component';
@@ -13,6 +15,8 @@ import { RegisterComponent } from '../register/register.component';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+
+  private mockPlayerList: PlayerContainer = testPlayers;
 
   private subscriptions: Subscription[] = [];
   protected loginComponent: ComponentType<any> = LoginComponent;
@@ -33,12 +37,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
         if (this.authService.isAuthenticated()) {
           this.dialog.closeAll();
           if (this.authService.user)
-            this.firestoreService.getPlayersList(this.authService.user.uid).subscribe(val => {
+            this.firestoreService.getPlayersListSubs(this.authService.user.uid).subscribe(val => {
               console.log(val);
             });
         }
       })
     );
+
   }
 
   public ngOnDestroy(): void {

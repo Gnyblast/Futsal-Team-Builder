@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { doc, docData, Firestore, updateDoc } from '@angular/fire/firestore';
+import { doc, docData, DocumentSnapshot, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { PlayerContainer } from '../interfaces/IPlayer';
 
@@ -12,13 +12,18 @@ export class FirestoreService {
 
   constructor() { }
 
-  public getPlayersList(uid: string): Observable<PlayerContainer> {
+  public getPlayersListSubs(uid: string): Observable<PlayerContainer> {
     let docRef = doc(this.firestore, "players/" + uid);
     return docData(docRef) as Observable<PlayerContainer>;
   }
 
+  public getPlayersList(uid: string): Promise<DocumentSnapshot<PlayerContainer, PlayerContainer>> {
+    let docRef = doc(this.firestore, "players/" + uid);
+    return getDoc(docRef);
+  }
+
   public async setPlayersList(playerContainer: PlayerContainer, uid: string): Promise<void> {
     let docRef = doc(this.firestore, "players/" + uid);
-    return await updateDoc(docRef, playerContainer);
+    return await setDoc(docRef, playerContainer);
   }
 }
