@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { CoolGoogleButtonComponent } from '@angular-cool/social-login-buttons';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { CookieDetail, CookieItem, NgxCookieConsentModule } from '@localia/ngx-cookie-consent';
 import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
 import { environment } from '../environments/environment';
@@ -55,6 +56,7 @@ const cookieConfig = {
     NgxGoogleAnalyticsModule.forRoot('G-FQW4MXXGBY'),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
     MaterialModule,
     CoolGoogleButtonComponent,
   ],

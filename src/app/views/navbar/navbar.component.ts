@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { FirestoreService } from '../../services/firestore.service';
 import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
 
@@ -19,7 +20,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   constructor(
     protected authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private firestoreService: FirestoreService
   ) {
 
   };
@@ -30,6 +32,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.authService.authTrigger().subscribe(() => {
         if (this.authService.isAuthenticated()) {
           this.dialog.closeAll();
+          if (this.authService.user)
+            this.firestoreService.getPlayersList(this.authService.user.uid).subscribe(val => {
+              console.log(val);
+            });
         }
       })
     );

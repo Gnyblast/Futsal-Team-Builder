@@ -10,10 +10,11 @@ export class AuthService {
 
   private auth = inject(Auth);
   public isAuthenticated: WritableSignal<boolean> = signal<boolean>(false);
+  public user: User | null = null;
 
   constructor() {
     authState(this.auth).subscribe(user => {
-      this.setUserState(user);
+      this.setUserAndState(user);
     });
   }
 
@@ -33,7 +34,7 @@ export class AuthService {
   public async signIn(email: string, password: string): Promise<UserCredential> {
     try {
       let creds = await signInWithEmailAndPassword(this.auth, email, password);
-      this.setUserState(creds.user);
+      this.setUserAndState(creds.user);
       return creds;
     } catch (error) {
       console.error('Sign In Error:', error);
@@ -49,7 +50,7 @@ export class AuthService {
         this.auth,
         new GoogleAuthProvider
       );
-      this.setUserState(creds.user);
+      this.setUserAndState(creds.user);
       return creds;
     } catch (error) {
       console.error('Google Sign In Error:', error);
@@ -62,6 +63,7 @@ export class AuthService {
   public async signOut() {
     try {
       await signOut(this.auth);
+      this.setUserAndState(null);
     } catch (error) {
       console.error('Sign Out Error:', error);
       throw error;
@@ -84,7 +86,8 @@ export class AuthService {
     return user(this.auth);
   }
 
-  private setUserState(user: User | null): void {
+  private setUserAndState(user: User | null): void {
+    this.user = user;
     if (!user) {
       this.isAuthenticated.set(false);
       return;
