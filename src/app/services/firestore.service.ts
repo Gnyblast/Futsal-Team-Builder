@@ -1,16 +1,15 @@
-import { inject, Injectable } from '@angular/core';
-import { doc, docData, DocumentSnapshot, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { PlayerContainer } from '../interfaces/IPlayer';
+import {inject, Injectable} from "@angular/core";
+import {doc, docData, DocumentSnapshot, Firestore, getDoc, setDoc} from "@angular/fire/firestore";
+import {Observable} from "rxjs";
+import {PlayerContainer} from "../interfaces/IPlayer";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class FirestoreService {
-
   private firestore: Firestore = inject(Firestore);
 
-  constructor() { }
+  constructor() {}
 
   public getPlayersListSubs(uid: string): Observable<PlayerContainer> {
     let docRef = doc(this.firestore, "players/" + uid);

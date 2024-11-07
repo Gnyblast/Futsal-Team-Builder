@@ -1,19 +1,32 @@
-import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { Auth, authState, createUserWithEmailAndPassword, GoogleAuthProvider, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, user, User, UserCredential } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
-
+import {inject, Injectable, signal, WritableSignal} from "@angular/core";
+import {
+  Auth,
+  authState,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  user,
+  User,
+  UserCredential,
+} from "@angular/fire/auth";
+import {Observable} from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
-
   private auth = inject(Auth);
   public isAuthenticated: WritableSignal<boolean> = signal<boolean>(false);
   public user: User | null = null;
+  public loaded: boolean = false;
 
   constructor() {
-    authState(this.auth).subscribe(user => {
+    authState(this.auth).subscribe((user) => {
+      this.loaded = true;
       this.setUserAndState(user);
     });
   }
@@ -24,8 +37,8 @@ export class AuthService {
       await sendEmailVerification(creds.user);
       return creds;
     } catch (error) {
-      console.error('Sign Up Error:', error);
-      return new Promise<UserCredential>(resolve => {
+      console.error("Sign Up Error:", error);
+      return new Promise<UserCredential>((resolve) => {
         resolve({} as UserCredential);
       });
     }
@@ -34,11 +47,10 @@ export class AuthService {
   public async signIn(email: string, password: string): Promise<UserCredential> {
     try {
       let creds = await signInWithEmailAndPassword(this.auth, email, password);
-      this.setUserAndState(creds.user);
       return creds;
     } catch (error) {
-      console.error('Sign In Error:', error);
-      return new Promise<UserCredential>(resolve => {
+      console.error("Sign In Error:", error);
+      return new Promise<UserCredential>((resolve) => {
         resolve({} as UserCredential);
       });
     }
@@ -46,15 +58,11 @@ export class AuthService {
 
   public async googleSignIn(): Promise<UserCredential> {
     try {
-      let creds = await signInWithPopup(
-        this.auth,
-        new GoogleAuthProvider
-      );
-      this.setUserAndState(creds.user);
+      let creds = await signInWithPopup(this.auth, new GoogleAuthProvider());
       return creds;
     } catch (error) {
-      console.error('Google Sign In Error:', error);
-      return new Promise<UserCredential>(resolve => {
+      console.error("Google Sign In Error:", error);
+      return new Promise<UserCredential>((resolve) => {
         resolve({} as UserCredential);
       });
     }
@@ -63,9 +71,8 @@ export class AuthService {
   public async signOut() {
     try {
       await signOut(this.auth);
-      this.setUserAndState(null);
     } catch (error) {
-      console.error('Sign Out Error:', error);
+      console.error("Sign Out Error:", error);
       throw error;
     }
   }
@@ -100,5 +107,4 @@ export class AuthService {
 
     this.isAuthenticated.set(true);
   }
-
 }

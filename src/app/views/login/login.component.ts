@@ -1,16 +1,15 @@
-import { Component } from '@angular/core';
-import { User } from '@angular/fire/auth';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from '../../services/auth.service';
+import {Component} from "@angular/core";
+import {User} from "@angular/fire/auth";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {MatDialog} from "@angular/material/dialog";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrl: "./login.component.css",
 })
 export class LoginComponent {
-
   protected dialogResponse: string = "";
   protected notVerified: boolean = false;
   protected loginShow: boolean = true;
@@ -25,10 +24,7 @@ export class LoginComponent {
     email: new FormControl<string>("", [Validators.required, Validators.email]),
   });
 
-  constructor(
-    private authService: AuthService,
-    private dialog: MatDialog
-  ) { }
+  constructor(private authService: AuthService, private dialog: MatDialog) {}
 
   public loginWithGooogle(): void {
     this.authService.googleSignIn();
@@ -37,7 +33,7 @@ export class LoginComponent {
   public login(): void {
     this.notVerified = false;
     this.dialogResponse = "";
-    if (!this.loginForm.controls['email'].valid) {
+    if (!this.loginForm.controls["email"].valid) {
       this.dialogResponse = "Invalid email address";
       return;
     }
@@ -47,21 +43,23 @@ export class LoginComponent {
       return;
     }
 
-    this.authService.signIn(this.loginForm.value.email, this.loginForm.value.password).then(creds => {
-      if (!creds.user) {
-        this.dialogResponse = "Invalid credentials!";
-        return;
-      }
+    this.authService
+      .signIn(this.loginForm.value.email, this.loginForm.value.password)
+      .then((creds) => {
+        if (!creds.user) {
+          this.dialogResponse = "Invalid credentials!";
+          return;
+        }
 
-      if (!creds.user.emailVerified) {
-        this.notVerified = true;
-        this.user = creds.user;
-        this.dialogResponse = "Verify your email address!";
-        return;
-      }
+        if (!creds.user.emailVerified) {
+          this.notVerified = true;
+          this.user = creds.user;
+          this.dialogResponse = "Verify your email address!";
+          return;
+        }
 
-      this.dialog.closeAll();
-    });
+        this.dialog.closeAll();
+      });
   }
 
   public resetPassword(): void {
@@ -70,7 +68,7 @@ export class LoginComponent {
       return;
     }
 
-    this.authService.resetPassword(this.resetForm.value.email).then(creds => {
+    this.authService.resetPassword(this.resetForm.value.email).then((creds) => {
       this.dialogResponse = "Email sent!";
       this.loginShow = true;
     });
@@ -85,5 +83,4 @@ export class LoginComponent {
 
     this.dialogResponse = "Something went wrong!";
   }
-
 }

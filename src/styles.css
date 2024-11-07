@@ -1,7 +1,7 @@
 /* Global Styles */
 
 * {
-  font-family: 'Roboto', Arial, sans-serif;
+  font-family: "Roboto", Arial, sans-serif;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -16,7 +16,7 @@ body {
   flex-direction: row;
 }
 
-router-outlet+* {
+router-outlet + * {
   padding: 0 16px;
 }
 
@@ -58,7 +58,7 @@ input {
   border-radius: 2px;
   padding: 8px;
   margin-bottom: 16px;
-  border: 1px solid #BDBDBD;
+  border: 1px solid #bdbdbd;
 }
 
 label {
@@ -138,7 +138,7 @@ app-top-bar h1 {
   padding: 16px 32px;
   margin-bottom: 8px;
   border-radius: 2px;
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
 }
 
 /*

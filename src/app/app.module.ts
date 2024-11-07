@@ -1,22 +1,24 @@
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import {NgModule} from "@angular/core";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {BrowserModule} from "@angular/platform-browser";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {RouterModule} from "@angular/router";
 
-import { CoolGoogleButtonComponent } from '@angular-cool/social-login-buttons';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getAuth, provideAuth } from '@angular/fire/auth';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { CookieDetail, CookieItem, NgxCookieConsentModule } from '@localia/ngx-cookie-consent';
-import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
-import { environment } from '../environments/environment';
-import { AppComponent } from './app.component';
-import { MaterialModule } from './material.module';
-import { LoginComponent } from './views/login/login.component';
-import { NavbarComponent } from "./views/navbar/navbar.component";
-import { RegisterComponent } from './views/register/register.component';
-
+import {CoolGoogleButtonComponent} from "@angular-cool/social-login-buttons";
+import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
+import {getAuth, provideAuth} from "@angular/fire/auth";
+import {getFirestore, provideFirestore} from "@angular/fire/firestore";
+import {CookieDetail, CookieItem, NgxCookieConsentModule} from "@localia/ngx-cookie-consent";
+import {NgxGoogleAnalyticsModule} from "ngx-google-analytics";
+import {environment} from "../environments/environment";
+import {AppComponent} from "./app.component";
+import {MaterialModule} from "./material.module";
+import {LoginComponent} from "./views/login/login.component";
+import {NavbarComponent} from "./views/navbar/navbar.component";
+import {RegisterComponent} from "./views/register/register.component";
+import {MainComponent} from "./views/main/main.component";
+import {NgxCookieConsentConfigService} from "@localia/ngx-cookie-consent/lib/config/ngx-cookie-consent-config.service";
+import {Positions} from "./enums/positions.enum";
 
 const cookieConfig = {
   showCookieDetails: false,
@@ -24,36 +26,36 @@ const cookieConfig = {
   showFunctionalCookies: true,
   showMarketingCookies: false,
   showOtherTools: false,
-  functionalCookies: [{
-    name: "Google Analytics",
-    key: "ga",
-    cookies: [{
+  functionalCookies: [
+    {
       name: "Google Analytics",
-      description: "Cookies will be collected for google analytics."
-    } as CookieDetail],
-    description: "Cookies will be collected for google analytics.",
-    privacyPolicyUrl: ""
-  } as CookieItem],
+      key: "ga",
+      cookies: [
+        {
+          name: "Google Analytics",
+          description: "Cookies will be collected for google analytics.",
+        } as CookieDetail,
+      ],
+      description: "Cookies will be collected for google analytics.",
+      privacyPolicyUrl: "",
+    } as CookieItem,
+  ],
   customClass: "custombanner",
   customOpenerClass: "opener",
-  cookiePrefix: "logeks"
+  cookiePrefix: "logeks",
+  openerPosition: "right-bottom" as "right-bottom",
 };
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    LoginComponent,
-    RegisterComponent,
-  ],
+  declarations: [AppComponent, NavbarComponent, LoginComponent, RegisterComponent, MainComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterModule.forRoot([{ path: '', component: AppComponent }]),
+    RouterModule.forRoot([{path: "", component: AppComponent}]),
     NgxCookieConsentModule.forRoot(cookieConfig),
-    NgxGoogleAnalyticsModule.forRoot('G-FQW4MXXGBY'),
+    NgxGoogleAnalyticsModule.forRoot("G-FQW4MXXGBY"),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
@@ -62,7 +64,7 @@ const cookieConfig = {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
 
 /*
 Copyright Google LLC. All Rights Reserved.

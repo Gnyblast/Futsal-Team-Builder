@@ -1,15 +1,15 @@
 form {
-    width: 400px;
-    height: auto;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    justify-content: center;
-    align-items: center;
+  width: 400px;
+  height: auto;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
 }
 
 form button,
 form mat-form-field {
-    width: 100%;
+  width: 100%;
 }
