@@ -23,9 +23,9 @@
     <mat-hint>Min 8 characters alphanumeric.</mat-hint>
   </mat-form-field>
 
-  <button mat-raised-button color="accent" type="submit">Register</button>
+  <button mat-raised-button color="accent" type="submit" [disabled]="registering">Register</button>
 
-  <cool-google-button color="dark" (click)="loginWithGooogle()">
+  <cool-google-button color="dark" [disabled]="registering" (click)="loginWithGooogle()">
     Login with Google
   </cool-google-button>
 </form>

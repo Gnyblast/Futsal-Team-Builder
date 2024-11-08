@@ -51,7 +51,7 @@ export class LoginComponent {
     this.authService
       .signIn(this.loginForm.value.email, this.loginForm.value.password)
       .then((creds) => {
-        this.loggingIn = true;
+        this.loggingIn = false;
         if (!creds.user) {
           this.dialogResponse = "Invalid credentials!";
           return;

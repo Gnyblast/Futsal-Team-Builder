@@ -1,7 +1,7 @@
-import {Component} from "@angular/core";
-import {User} from "@angular/fire/auth";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../services/auth.service";
+import { Component } from "@angular/core";
+import { User } from "@angular/fire/auth";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-register",
@@ -12,6 +12,7 @@ export class RegisterComponent {
   protected dialogResponse: string = "";
   protected notVerified: boolean = false;
   private user: User | null = null;
+  protected registering: boolean = false;
 
   constructor(private authService: AuthService) {}
 
@@ -30,7 +31,10 @@ export class RegisterComponent {
   });
 
   public loginWithGooogle(): void {
-    this.authService.googleSignIn();
+    this.registering = true
+    this.authService.googleSignIn().then(() => {
+     this.registering = false 
+    });
   }
 
   public register(): void {
@@ -55,9 +59,11 @@ export class RegisterComponent {
       return;
     }
 
+    this.registering = true;
     this.authService
       .signUp(this.registerForm.value.email, this.registerForm.value.password)
       .then((creds) => {
+        this.registering = false;
         if (!creds.user) {
           this.dialogResponse = "Something went wrong!";
           return;
