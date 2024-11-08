@@ -1,26 +1,37 @@
 <form [formGroup]="registerForm" (submit)="register()">
   <h3>Register</h3>
   @if (dialogResponse) {
-    <span id="response">
-      {{ dialogResponse }}
-    </span>
-    @if (notVerified) {
-      <a (click)="resendEmail()">Resend Email</a>
-    }
-  }
+  <span id="response">
+    {{ dialogResponse }}
+  </span>
+  @if (notVerified) {
+  <a (click)="resendEmail()">Resend Email</a>
+  } }
   <mat-form-field>
     <mat-label>Email</mat-label>
     <input matInput type="email" formControlName="email" />
   </mat-form-field>
   <mat-form-field>
     <mat-label>Password</mat-label>
-    <input matInput type="password" formControlName="password" />
-    <mat-hint>Min 8 characters alphanumeric.</mat-hint>
+    <input
+      [matTooltip]="getToolTipText()"
+      matTooltipPosition="right"
+      matTooltipClass="allow-cr"
+      matInput
+      type="password"
+      formControlName="password"
+    />
   </mat-form-field>
   <mat-form-field>
     <mat-label>Password Confirm</mat-label>
-    <input matInput type="password" formControlName="password_confirm" />
-    <mat-hint>Min 8 characters alphanumeric.</mat-hint>
+    <input
+      [matTooltip]="getToolTipText()"
+      matTooltipPosition="right"
+      matTooltipClass="allow-cr"
+      matInput
+      type="password"
+      formControlName="password_confirm"
+    />
   </mat-form-field>
 
   <button mat-raised-button color="accent" type="submit" [disabled]="registering">Register</button>

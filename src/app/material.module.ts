@@ -6,8 +6,9 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   exports: [
@@ -20,6 +21,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
     MatSelectModule,
     MatDialogModule,
     MatSidenavModule,
+    MatTooltipModule,
   ],
 })
 export class MaterialModule {}

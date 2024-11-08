@@ -27,4 +27,7 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "typescript.format.semicolons": "insert",
+    "[css]":{
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
   }

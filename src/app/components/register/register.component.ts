@@ -1,7 +1,7 @@
-import { Component } from "@angular/core";
-import { User } from "@angular/fire/auth";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { AuthService } from "../../services/auth.service";
+import {Component} from "@angular/core";
+import {User} from "@angular/fire/auth";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: "app-register",
@@ -31,9 +31,9 @@ export class RegisterComponent {
   });
 
   public loginWithGooogle(): void {
-    this.registering = true
+    this.registering = true;
     this.authService.googleSignIn().then(() => {
-     this.registering = false 
+      this.registering = false;
     });
   }
 
@@ -83,5 +83,9 @@ export class RegisterComponent {
     }
 
     this.dialogResponse = "Something went wrong!";
+  }
+
+  protected getToolTipText(): string {
+    return "Min. 8 characters\nAt least 1 number\nAt least 1 uppercase\nAt least 1 lowercase";
   }
 }

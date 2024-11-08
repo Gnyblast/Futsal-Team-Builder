@@ -3,6 +3,80 @@ mat-drawer-container {
   height: 100%;
 }
 
-mat-drawer{
-  width: 500px;
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  mat-drawer {
+    width: 100%;
+    font-size: 10px;
+  }
+
+  ::ng-deep mat-drawer table .mdc-fab--mini {
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  ::ng-deep mat-drawer table .material-icons {
+    font-size: 20px;
+  }
+
+  ::ng-deep mat-drawer table .mat-icon {
+    height: 20px !important;
+    width: 20px !important;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  mat-drawer {
+    width: 100%;
+    font-size: 10px;
+  }
+
+  ::ng-deep mat-drawer table .mdc-fab--mini {
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  ::ng-deep mat-drawer table .material-icons {
+    font-size: 20px;
+  }
+
+  ::ng-deep mat-drawer table .mat-icon {
+    height: 20px !important;
+    width: 20px !important;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  mat-drawer {
+    width: 500px;
+    font-size: unset;
+  }
+
+  ::ng-deep mat-drawer table .mdc-fab--mini {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  ::ng-deep mat-drawer table .material-icons {
+    font-size: 24px;
+  }
+
+  ::ng-deep mat-drawer table .mat-icon {
+    height: 24px !important;
+    width: 24px !important;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1700px and up) */
+@media only screen and (min-width: 1700px) {
 }

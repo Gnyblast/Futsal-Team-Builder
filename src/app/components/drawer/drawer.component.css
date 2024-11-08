@@ -1,41 +1,65 @@
-#container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    gap:20px;
+#container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
 }
 
-#title{
-    display: flex;
-    flex-direction: row;
-    gap:10px;
-    width: 100%;
-    justify-content: space-around;
-    align-items: center;
-    padding: 20px;
+#title {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
 }
 
-#title h2{
-    width: 80%;
-    text-align: center;
-    padding: 0px;
+#title h2 {
+  width: 80%;
+  text-align: center;
+  padding: 0px;
 }
 
-#container table{
-    width: 100%;
-    padding:10px;
-    text-align: center;
-    border-spacing: 10px;
+#container table {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  border-spacing: 10px;
 }
 
-.bold{
-    font-weight: bolder;
+.bold {
+  font-weight: bolder;
 }
 
-.actions{
-    display: flex;
-    flex-direction: row;
-    gap:10px;
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1700px and up) */
+@media only screen and (min-width: 1700px) {
 }
