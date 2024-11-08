@@ -12,13 +12,13 @@ import {CookieDetail, CookieItem, NgxCookieConsentModule} from "@localia/ngx-coo
 import {NgxGoogleAnalyticsModule} from "ngx-google-analytics";
 import {environment} from "../environments/environment";
 import {AppComponent} from "./app.component";
+import {DrawerComponent} from "./components/drawer/drawer.component";
+import {LoginComponent} from "./components/login/login.component";
+import {MainComponent} from "./components/main/main.component";
+import {NavbarComponent} from "./components/navbar/navbar.component";
+import {RegisterComponent} from "./components/register/register.component";
+import {ValidateNameDirective} from "./directives/validate-name.directive";
 import {MaterialModule} from "./material.module";
-import {LoginComponent} from "./views/login/login.component";
-import {NavbarComponent} from "./views/navbar/navbar.component";
-import {RegisterComponent} from "./views/register/register.component";
-import {MainComponent} from "./views/main/main.component";
-import {NgxCookieConsentConfigService} from "@localia/ngx-cookie-consent/lib/config/ngx-cookie-consent-config.service";
-import {Positions} from "./enums/positions.enum";
 
 const cookieConfig = {
   showCookieDetails: false,
@@ -47,7 +47,15 @@ const cookieConfig = {
 };
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, LoginComponent, RegisterComponent, MainComponent],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    LoginComponent,
+    RegisterComponent,
+    MainComponent,
+    DrawerComponent,
+    ValidateNameDirective,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

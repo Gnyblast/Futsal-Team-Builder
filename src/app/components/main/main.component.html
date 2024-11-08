@@ -1,5 +1,5 @@
 <div class="container">
-  @if (isFirst) {
+  @if (getAsFormArray(playerForms.controls['players']).controls.length < 1) {
   <div class="pre-generate-player-forms">
     <form (submit)="generateFormFields()">
       <mat-form-field appearance="outline">
@@ -32,7 +32,13 @@
       >
         <mat-form-field>
           <mat-label>Player Name {{ $index + 1 }}</mat-label>
-          <input formControlName="name" matInput type="text" />
+          <input
+            appValidateName
+            formControlName="name"
+            matInput
+            type="text"
+            (input)="compareNameToDrawer($event, $index)"
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Position</mat-label>
@@ -69,6 +75,29 @@
         <button mat-mini-fab color="accent" (click)="deletePlayer($index)">
           <mat-icon>close</mat-icon>
         </button>
+        @if(playersService.isDPPlayerExistByIndex($index)){
+        <button
+          mat-mini-fab
+          color="accent"
+          [disabled]="!isPlayerStatsChanged($index, getAsFormGroup(
+            getAsFormArray(playerForms.controls['players']).controls[$index]
+          ).valid)"
+          (click)="updatePlayer($index)"
+        >
+          <mat-icon>save_as</mat-icon>
+        </button>
+        } @else {
+        <button
+          mat-mini-fab
+          color="accent"
+          [disabled]="!getAsFormGroup(
+          getAsFormArray(playerForms.controls['players']).controls[$index]
+        ).valid"
+          (click)="savePlayer($index)"
+        >
+          <mat-icon>save</mat-icon>
+        </button>
+        }
       </form>
       <mat-divider class="dividers"></mat-divider>
       }
@@ -180,4 +209,12 @@
       >Star</a
     >
   </div>
+  <br />
+  <a href="https://www.buymeacoffee.com/gnyblast" target="_blank"
+    ><img
+      alt="Buy Me A Coffee"
+      height="40"
+      width="180"
+      src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&slug=gnyblast&button_colour=F44336&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"
+  /></a>
 </div>

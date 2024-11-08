@@ -1,4 +1,4 @@
-.nav-holders{
+.nav-holders {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -8,13 +8,15 @@
   top: 0px;
   left: 0px;
 }
+
 #unAuthContainer {
   justify-content: flex-end;
 }
+
 #authContainer {
   justify-content: space-between;
 }
 
-.mat-mdc-extended-fab{ 
-  border-radius: var(--mdc-protected-button-container-shape)
+.mat-mdc-extended-fab {
+  border-radius: 4px;
 }

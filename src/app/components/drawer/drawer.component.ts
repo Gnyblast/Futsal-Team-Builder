@@ -1,30 +1,28 @@
-import {ComponentType} from "@angular/cdk/portal";
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {MatDialog} from "@angular/material/dialog";
 import {Subscription} from "rxjs";
-import {PlayerContainer} from "../../interfaces/IPlayer";
+import {Player, PlayerContainer} from "../../interfaces/IPlayer";
 import {AuthService} from "../../services/auth.service";
+import {DrawerService} from "../../services/drawer.service";
 import {FirestoreService} from "../../services/firestore.service";
-import {LoginComponent} from "../login/login.component";
-import {RegisterComponent} from "../register/register.component";
+import {PlayersService} from "../../services/players.service";
 
 @Component({
-  selector: "app-navbar",
-  templateUrl: "./navbar.component.html",
-  styleUrl: "./navbar.component.css",
+  selector: "app-drawer",
+  templateUrl: "./drawer.component.html",
+  styleUrl: "./drawer.component.css",
 })
-export class NavbarComponent implements OnInit, OnDestroy {
+export class DrawerComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   private playersSubs: Subscription = new Subscription();
-  protected loginComponent: ComponentType<any> = LoginComponent;
-  protected registerComponent: ComponentType<any> = RegisterComponent;
   protected playerList: PlayerContainer = {} as PlayerContainer;
-  @Output() public menuClicked: EventEmitter<boolean> = new EventEmitter(false);
 
   constructor(
-    protected authService: AuthService,
+    private authService: AuthService,
     private dialog: MatDialog,
     private firestoreService: FirestoreService,
+    private drawerService: DrawerService,
+    protected playersService: PlayersService,
   ) {}
 
   public ngOnInit(): void {
@@ -37,7 +35,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.playersSubs = this.firestoreService
               .getPlayersListSubs(this.authService.user.uid)
               .subscribe((val) => {
-                if (val) this.playerList = val;
+                if (val) {
+                  this.playerList = val;
+
+                  this.playersService.setDBPlayers(
+                    this.playerList["players"].map((player) => {
+                      return player.name;
+                    }),
+                  );
+
+                  this.playersService.setPlayersDBList(val);
+                }
               });
           }
           return;
@@ -59,15 +67,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.playersSubs.unsubscribe();
   }
 
-  protected openDialog(component: ComponentType<any>): void {
-    this.dialog.open(component);
+  protected closeDrawer(): void {
+    this.drawerService.closeDrawer();
   }
 
-  protected logOut(): void {
-    this.authService.signOut();
-  }
-
-  protected toggleDrawer(): void {
-    this.menuClicked.emit(true);
+  protected AddPlayerToPlayers(player: Player): void {
+    this.playersService.moveDBPlayerToPlayers(player);
   }
 }

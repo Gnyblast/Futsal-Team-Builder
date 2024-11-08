@@ -1,11 +1,13 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {User} from "@angular/fire/auth";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {NgxCookieManagerService} from "@localia/ngx-cookie-consent";
+import {skip, Subscription} from "rxjs";
 import * as testPlayers from "../../../assets/test_players.json";
 import {Positions} from "../../enums/positions.enum";
 import {Player} from "../../interfaces/IPlayer";
 import {Team, Teams} from "../../interfaces/ITeam";
+import {PlayersService} from "../../services/players.service";
 import {TeamGenerateService} from "../../services/team-generate.service";
 
 @Component({
@@ -13,8 +15,9 @@ import {TeamGenerateService} from "../../services/team-generate.service";
   templateUrl: "./main.component.html",
   styleUrl: "./main.component.css",
 })
-export class MainComponent {
+export class MainComponent implements OnInit, OnDestroy {
   protected user: User | null = null;
+  private subscriptions: Subscription[] = [];
   private mockPlayerList: Player[] = testPlayers.players;
 
   protected isFirst: boolean = true;
@@ -34,6 +37,7 @@ export class MainComponent {
   constructor(
     private teamGenereateService: TeamGenerateService,
     private cookieConsentService: NgxCookieManagerService,
+    protected playersService: PlayersService,
   ) {}
 
   public ngOnInit(): void {
@@ -52,6 +56,20 @@ export class MainComponent {
         return;
       }
     });
+
+    this.subscriptions.push(
+      this.playersService.movePlayer.pipe(skip(1)).subscribe((player) => {
+        if (player) this.addNewPlayer(player);
+      }),
+    );
+  }
+
+  public ngOnDestroy(): void {
+    if (this.subscriptions.length > 0) {
+      this.subscriptions.forEach((subs) => {
+        subs.unsubscribe();
+      });
+    }
   }
 
   private enableConsentGtags(): void {
@@ -210,21 +228,31 @@ export class MainComponent {
 
     this.isFirst = true;
     this.isGenerated = false;
+    this.playersService.resetPlayers();
   }
 
-  protected addNewPlayer(): void {
+  protected addNewPlayer(player?: Player | null): void {
     let form = new FormGroup({
-      name: new FormControl<string | null>(null, [Validators.required]),
-      position: new FormControl<string | null>(null, [Validators.required]),
-      defenceRating: new FormControl<number | null>(null, [Validators.required]),
-      attackRating: new FormControl<number | null>(null, [Validators.required]),
-      conditionRating: new FormControl<number | null>(null, [Validators.required]),
+      name: new FormControl<string | null>(player ? player.name : null, [Validators.required]),
+      position: new FormControl<string | null>(player ? player.position : null, [
+        Validators.required,
+      ]),
+      defenceRating: new FormControl<number | null>(player ? player.defenceRating : null, [
+        Validators.required,
+      ]),
+      attackRating: new FormControl<number | null>(player ? player.attackRating : null, [
+        Validators.required,
+      ]),
+      conditionRating: new FormControl<number | null>(player ? player.conditionRating : null, [
+        Validators.required,
+      ]),
     });
     (this.playerForms.controls["players"] as FormArray).push(form);
     this.numOfPlayers++;
   }
 
   protected deletePlayer(index: number): void {
+    this.playersService.removePlayerByIndex(index);
     (this.playerForms.controls["players"] as FormArray).removeAt(index);
     this.numOfPlayers--;
 
@@ -248,6 +276,11 @@ export class MainComponent {
     }
     this.playerForms.controls["players"] = formArr;
     this.isFirst = false;
+    this.playersService.setPlayers(
+      this.mockPlayerList.map((player) => {
+        return player.name;
+      }),
+    );
   }
 
   protected getTeams(): string[] {
@@ -270,5 +303,45 @@ export class MainComponent {
     return this.playerForms.controls["players"].value.find((player: Player) => {
       return player.name == playerName;
     });
+  }
+
+  protected compareNameToDrawer(event: any, index: number) {
+    if (event.target) {
+      this.playersService.updatePlayerOnIndex(index, event.target.value);
+    }
+  }
+
+  protected isPlayerStatsChanged(index: number, formValid: boolean): boolean {
+    console.log(formValid);
+    if (!formValid) return false;
+    let player = this.playersService.getDBPlayerByPlayerIndex(index);
+    if (player)
+      return this.isPlayerChanged(
+        player,
+        ((this.playerForms.controls["players"] as FormArray).controls[index] as FormGroup).value,
+      );
+
+    return false;
+  }
+
+  private isPlayerChanged(playerOne: Player, playerTwo: Player): boolean {
+    if (playerOne.attackRating != playerTwo.attackRating) return true;
+    if (playerOne.defenceRating != playerTwo.defenceRating) return true;
+    if (playerOne.conditionRating != playerTwo.conditionRating) return true;
+    if (playerOne.position !== playerTwo.position) return true;
+
+    return false;
+  }
+
+  protected updatePlayer(index: number): void {
+    this.playersService.updateExistingPlayerOnDB(
+      ((this.playerForms.controls["players"] as FormArray).controls[index] as FormGroup).value,
+    );
+  }
+
+  protected savePlayer(index: number): void {
+    this.playersService.addNewPlayerToDB(
+      ((this.playerForms.controls["players"] as FormArray).controls[index] as FormGroup).value,
+    );
   }
 }

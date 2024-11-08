@@ -1,8 +1,12 @@
 <mat-drawer-container class="example-container" [hasBackdrop]="false">
-  <mat-drawer #drawer [mode]="'side'">I'm a drawer</mat-drawer>
+  <mat-drawer #drawer [mode]="'over'">
+    @if (authService.isAuthenticated()) {
+    <app-drawer></app-drawer>
+    }
+  </mat-drawer>
   <mat-drawer-content>
     <ngx-cookie-consent></ngx-cookie-consent>
-    <app-navbar (menuClicked)="drawer.toggle()"></app-navbar>
+    <app-navbar></app-navbar>
     <app-main></app-main>
   </mat-drawer-content>
 </mat-drawer-container>
