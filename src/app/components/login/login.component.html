@@ -17,12 +17,12 @@
     <input matInput type="password" formControlName="password" />
   </mat-form-field>
 
-  <button mat-raised-button color="accent" type="submit">Login</button>
+  <button mat-raised-button color="accent" type="submit" [disabled]="loggingIn">Login</button>
   <button mat-raised-button color="warn" type="button" (click)="loginShow = !loginShow">
     Forgot Password
   </button>
 
-  <cool-google-button color="dark" (click)="loginWithGooogle()">
+  <cool-google-button [disabled]="loggingIn" color="dark" (click)="loginWithGooogle()">
     Login with Google
   </cool-google-button>
 </form>
@@ -44,7 +44,7 @@
     Back
   </button>
 
-  <cool-google-button color="dark" (click)="loginWithGooogle()">
+  <cool-google-button [disabled]="loggingIn" color="dark" (click)="loginWithGooogle()">
     Login with Google
   </cool-google-button>
 </form>

@@ -1,8 +1,8 @@
-import {Component} from "@angular/core";
-import {User} from "@angular/fire/auth";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {MatDialog} from "@angular/material/dialog";
-import {AuthService} from "../../services/auth.service";
+import { Component } from "@angular/core";
+import { User } from "@angular/fire/auth";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-login",
@@ -14,6 +14,7 @@ export class LoginComponent {
   protected notVerified: boolean = false;
   protected loginShow: boolean = true;
   private user: User | null = null;
+  protected loggingIn: boolean = false;
 
   protected loginForm: FormGroup = new FormGroup({
     email: new FormControl<string>("", [Validators.required, Validators.email]),
@@ -27,7 +28,10 @@ export class LoginComponent {
   constructor(private authService: AuthService, private dialog: MatDialog) {}
 
   public loginWithGooogle(): void {
-    this.authService.googleSignIn();
+    this.loggingIn = true
+    this.authService.googleSignIn().then(() => {
+     this.loggingIn = false 
+    });
   }
 
   public login(): void {
@@ -43,9 +47,11 @@ export class LoginComponent {
       return;
     }
 
+    this.loggingIn = true;
     this.authService
       .signIn(this.loginForm.value.email, this.loginForm.value.password)
       .then((creds) => {
+        this.loggingIn = true;
         if (!creds.user) {
           this.dialogResponse = "Invalid credentials!";
           return;
