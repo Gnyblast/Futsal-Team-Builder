@@ -1,3 +1,12 @@
+  <center>
+  <a href="https://www.buymeacoffee.com/gnyblast" target="_blank"
+      ><img
+        alt="Buy Me A Coffee"
+        height="40"
+        width="180"
+        src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&slug=gnyblast&button_colour=F44336&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"
+    /></a>
+  </center>
 # Futsal-Team-Builder
 
 Live: http://futsal.logeks.com
