@@ -59,10 +59,3 @@ Demo button can be used to auto-fill the players from `src/assets/test_players.j
      - `podman run -v <path-to-top-level>:/app futsal-builder:latest build`
 
 And results must be in `dist` directory of your project top-level.
-
-## Future development plans
-
-- [ ] Adding a save button next to each player
-- [ ] Adding a localstorage service that when this save button is clicked it will save the player to the localstorage of the browser
-- [ ] Adding a side-bar to the left that will display the players saved on localstorage and you can pick it from there to get added to the list
-- [ ] Adding export/import buttons to the localstorage, so that players can get saved to you local machine or imported from the file
