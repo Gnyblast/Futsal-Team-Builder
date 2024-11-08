@@ -1,0 +1,22 @@
+@if (authService.loaded) {
+<div id="navBar">
+  @if (!authService.isAuthenticated()) {
+  <div id="unAuthContainer" class="nav-holders">
+    <button mat-raised-button color="accent" type="button" (click)="openDialog(loginComponent)">
+      Login
+    </button>
+    <button mat-raised-button color="accent" type="button" (click)="openDialog(registerComponent)">
+      Register
+    </button>
+  </div>
+  } @else {
+  <div id="authContainer" class="nav-holders">
+    <button mat-fab extended color="accent" type="button" (click)="openDrawer()">
+      <mat-icon>groups</mat-icon>
+      Players
+    </button>
+    <button mat-raised-button color="accent" type="button" (click)="logOut()">Logout</button>
+  </div>
+  }
+</div>
+}

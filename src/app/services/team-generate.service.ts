@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Player } from '../interfaces/IPlayer';
-import { FormArray } from '@angular/forms';
-import { Positions } from '../enums/positions.enum';
-import { Team, Teams } from '../interfaces/ITeam';
+import {Injectable} from "@angular/core";
+import {Player} from "../interfaces/IPlayer";
+import {FormArray} from "@angular/forms";
+import {Positions} from "../enums/positions.enum";
+import {Team, Teams} from "../interfaces/ITeam";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class TeamGenerateService {
   private players: Player[] = [];
@@ -14,17 +14,17 @@ export class TeamGenerateService {
   private midfielders: Player[] = [] as Player[];
   private strikers: Player[] = [] as Player[];
   private teams: Teams = {
-    TeamA: { squad: [], attack: 0, defense: 0, condition: 0, totalScore: 0 },
-    TeamB: { squad: [], attack: 0, defense: 0, condition: 0, totalScore: 0 },
+    TeamA: {squad: [], attack: 0, defense: 0, condition: 0, totalScore: 0},
+    TeamB: {squad: [], attack: 0, defense: 0, condition: 0, totalScore: 0},
   };
 
-  constructor() { }
+  constructor() {}
 
   public generate(playerForms: FormArray): Teams {
     this.players = [];
     this.teams = {
-      TeamA: { squad: [], attack: 0, defense: 0, condition: 0, totalScore: 0 },
-      TeamB: { squad: [], attack: 0, defense: 0, condition: 0, totalScore: 0 },
+      TeamA: {squad: [], attack: 0, defense: 0, condition: 0, totalScore: 0},
+      TeamB: {squad: [], attack: 0, defense: 0, condition: 0, totalScore: 0},
     };
 
     for (let playerForm of playerForms.controls) {
@@ -34,14 +34,10 @@ export class TeamGenerateService {
 
     this.sortByPositions(this.players);
 
-    if (this.goalKeepers.length > 0)
-      this.distributePlayersToTeams(this.goalKeepers);
-    if (this.defenders.length > 0)
-      this.distributePlayersToTeams(this.defenders);
-    if (this.midfielders.length > 0)
-      this.distributePlayersToTeams(this.midfielders);
-    if (this.strikers.length > 0)
-      this.distributePlayersToTeams(this.strikers);
+    if (this.goalKeepers.length > 0) this.distributePlayersToTeams(this.goalKeepers);
+    if (this.defenders.length > 0) this.distributePlayersToTeams(this.defenders);
+    if (this.midfielders.length > 0) this.distributePlayersToTeams(this.midfielders);
+    if (this.strikers.length > 0) this.distributePlayersToTeams(this.strikers);
 
     return this.teams;
   }
@@ -50,27 +46,19 @@ export class TeamGenerateService {
     switch (player.position) {
       case Positions.GOAL_KEEPER:
         player.totalScore =
-          player.defenceRating * 1 +
-          player.conditionRating * 0.1 +
-          player.attackRating * 0.1;
+          player.defenceRating * 1 + player.conditionRating * 0.1 + player.attackRating * 0.1;
         break;
       case Positions.DEFENDER:
         player.totalScore =
-          player.defenceRating * 1 +
-          player.conditionRating * 0.7 +
-          player.attackRating * 0.5;
+          player.defenceRating * 1 + player.conditionRating * 0.7 + player.attackRating * 0.5;
         break;
       case Positions.STRIKER:
         player.totalScore =
-          player.defenceRating * 0.3 +
-          player.conditionRating * 0.6 +
-          player.attackRating * 1;
+          player.defenceRating * 0.3 + player.conditionRating * 0.6 + player.attackRating * 1;
         break;
       case Positions.MIDFIELDER:
         player.totalScore =
-          player.defenceRating * 0.6 +
-          player.conditionRating * 0.9 +
-          player.attackRating * 0.6;
+          player.defenceRating * 0.6 + player.conditionRating * 0.9 + player.attackRating * 0.6;
         break;
     }
     return player;
@@ -96,14 +84,11 @@ export class TeamGenerateService {
   }
 
   private distributePlayersToTeams(players: Player[]): void {
-    let team = ['TeamA' as keyof Teams, 'TeamB' as keyof Teams];
+    let team = ["TeamA" as keyof Teams, "TeamB" as keyof Teams];
     let chosenTeam = team[this.randomInt(0, 1)];
     let oppositeTeam = this.switchTeam(chosenTeam);
 
-    if (
-      this.teams[chosenTeam].squad.length >=
-      this.teams[oppositeTeam].squad.length
-    )
+    if (this.teams[chosenTeam].squad.length >= this.teams[oppositeTeam].squad.length)
       chosenTeam = oppositeTeam;
 
     let randomPlayerIndex = this.randomInt(0, players.length - 1);
@@ -122,11 +107,7 @@ export class TeamGenerateService {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  private addPlayerToTeam(
-    team: keyof Teams,
-    playerIndex: number,
-    players: Player[]
-  ): Player[] {
+  private addPlayerToTeam(team: keyof Teams, playerIndex: number, players: Player[]): Player[] {
     this.teams[team].squad.push(players[playerIndex].name);
     this.teams[team].attack += players[playerIndex].attackRating;
     this.teams[team].defense += players[playerIndex].defenceRating;
@@ -137,17 +118,14 @@ export class TeamGenerateService {
   }
 
   private switchTeam(team: keyof Teams): keyof Teams {
-    return team === 'TeamA'
-      ? ('TeamB' as keyof Teams)
-      : ('TeamA' as keyof Teams);
+    return team === "TeamA" ? ("TeamB" as keyof Teams) : ("TeamA" as keyof Teams);
   }
 
   private getCounterPlayerIndex(team: keyof Teams, players: Player[]): number {
     let currentTeamScore = this.teams[team].totalScore;
     let counterTeamScore = this.teams[this.switchTeam(team)].totalScore;
 
-    if (counterTeamScore >= currentTeamScore)
-      return this.pickWorstPlayer(players);
+    if (counterTeamScore >= currentTeamScore) return this.pickWorstPlayer(players);
 
     let counterPlayerIndex = players.findIndex((player) => {
       return currentTeamScore <= counterTeamScore + player.totalScore;

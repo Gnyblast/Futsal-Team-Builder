@@ -1,0 +1,33 @@
+{
+    "[javascript]": {
+      "editor.formatOnSave": true,
+    },
+    // Exclude third party modules and build artifacts from the editor watchers/searches.
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/node_modules/**": true,
+      "**/bazel-out/**": true,
+      "**/dist/**": true,
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/bower_components": true,
+      "**/bazel-out": true,
+      "**/dist": true,
+      ".history": true,
+    },
+    "git.ignoreLimitWarning": true,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "[typescript]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "typescript.format.semicolons": "insert",
+    "[css]":{
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+  }
