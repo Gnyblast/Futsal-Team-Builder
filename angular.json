@@ -37,19 +37,6 @@
           },
           "configurations": {
             "production": {
-              "extractLicenses": true,
-              "commonChunk": true,
-              "outputHashing": "all",
-              "vendorChunk": true,
-              "aot": false,
-              "fileReplacements": [],
-              "namedChunks": false,
-              "sourceMap": {
-                "scripts": false,
-                "styles": false,
-                "vendor": false
-              },
-
               "budgets": [
                 {
                   "type": "initial",
@@ -61,7 +48,8 @@
                   "maximumWarning": "4kb",
                   "maximumError": "6kb"
                 }
-              ]
+              ],
+              "outputHashing": "all"
             },
             "development": {
               "optimization": false,
