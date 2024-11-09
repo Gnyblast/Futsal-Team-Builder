@@ -1,8 +1,8 @@
-import { Component } from "@angular/core";
-import { User } from "@angular/fire/auth";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatDialog } from "@angular/material/dialog";
-import { AuthService } from "../../services/auth.service";
+import {Component} from "@angular/core";
+import {User} from "@angular/fire/auth";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {MatDialog} from "@angular/material/dialog";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: "app-login",
@@ -28,9 +28,9 @@ export class LoginComponent {
   constructor(private authService: AuthService, private dialog: MatDialog) {}
 
   public loginWithGooogle(): void {
-    this.loggingIn = true
+    this.loggingIn = true;
     this.authService.googleSignIn().then(() => {
-     this.loggingIn = false 
+      this.loggingIn = false;
     });
   }
 
