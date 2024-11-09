@@ -1,14 +1,17 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {User} from "@angular/fire/auth";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
+import {MatDialog} from "@angular/material/dialog";
 import {NgxCookieManagerService} from "@localia/ngx-cookie-consent";
 import {skip, Subscription} from "rxjs";
 import * as testPlayers from "../../../assets/test_players.json";
 import {Positions} from "../../enums/positions.enum";
 import {Player} from "../../interfaces/IPlayer";
 import {Team, Teams} from "../../interfaces/ITeam";
+import {AuthService} from "../../services/auth.service";
 import {PlayersService} from "../../services/players.service";
 import {TeamGenerateService} from "../../services/team-generate.service";
+import {LoginComponent} from "../login/login.component";
 
 @Component({
   selector: "app-main",
@@ -38,6 +41,8 @@ export class MainComponent implements OnInit, OnDestroy {
     private teamGenereateService: TeamGenerateService,
     private cookieConsentService: NgxCookieManagerService,
     protected playersService: PlayersService,
+    protected authService: AuthService,
+    private dialog: MatDialog,
   ) {}
 
   public ngOnInit(): void {
@@ -343,5 +348,9 @@ export class MainComponent implements OnInit, OnDestroy {
     this.playersService.addNewPlayerToDB(
       ((this.playerForms.controls["players"] as FormArray).controls[index] as FormGroup).value,
     );
+  }
+
+  protected openLoginDialog(): void {
+    this.dialog.open(LoginComponent);
   }
 }

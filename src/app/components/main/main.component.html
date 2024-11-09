@@ -75,7 +75,18 @@
         <button mat-mini-fab color="accent" (click)="deletePlayer($index)">
           <mat-icon>close</mat-icon>
         </button>
-        @if(playersService.isDPPlayerExistByIndex($index)){
+        @if (!authService.isAuthenticated()) {
+        <button
+          mat-mini-fab
+          color="accent"
+          [disabled]="!getAsFormGroup(
+          getAsFormArray(playerForms.controls['players']).controls[$index]
+        ).valid"
+          (click)="openLoginDialog()"
+        >
+          <mat-icon>save</mat-icon>
+        </button>
+        } @else { @if(playersService.isDPPlayerExistByIndex($index)){
         <button
           mat-mini-fab
           color="accent"
@@ -97,7 +108,7 @@
         >
           <mat-icon>save</mat-icon>
         </button>
-        }
+        } }
       </form>
       <mat-divider class="dividers"></mat-divider>
       }
