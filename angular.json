@@ -25,10 +25,32 @@
                 "with": "src/environments/environment.development.ts"
               }
             ],
-            "scripts": []
+            "scripts": [],
+            "optimization": {
+              "scripts": true,
+              "fonts": true,
+              "styles": {
+                "minify": true,
+                "inlineCritical": true
+              }
+            }
           },
           "configurations": {
             "production": {
+              "extractLicenses": true,
+              "buildOptimizer": true,
+              "commonChunk": true,
+              "outputHashing": "all",
+              "vendorChunk": true,
+              "aot": false,
+              "fileReplacements": [],
+              "namedChunks": false,
+              "sourceMap": {
+                "scripts": false,
+                "styles": false,
+                "vendor": false
+              },
+
               "budgets": [
                 {
                   "type": "initial",
@@ -40,8 +62,7 @@
                   "maximumWarning": "4kb",
                   "maximumError": "6kb"
                 }
-              ],
-              "outputHashing": "all"
+              ]
             },
             "development": {
               "optimization": false,
