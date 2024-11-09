@@ -38,7 +38,6 @@
           "configurations": {
             "production": {
               "extractLicenses": true,
-              "buildOptimizer": true,
               "commonChunk": true,
               "outputHashing": "all",
               "vendorChunk": true,
