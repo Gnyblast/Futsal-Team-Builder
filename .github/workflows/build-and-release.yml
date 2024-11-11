@@ -95,7 +95,7 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./dist
           asset_name: futsal-team-builder.zip
-          asset_content_type: application/zip
+          asset_content_type: application/octet-stream
 
       - name: Recreate latest tag
         uses: rickstaa/action-create-tag@v1
