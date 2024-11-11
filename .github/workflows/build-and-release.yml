@@ -31,7 +31,7 @@ jobs:
 
       - name: Set version number
         run: |
-          sed -i 's/\"version\":/\"version\":.*\"${{ steps.split_version }}\"\,/' ./package.json
+          sed -i 's/\"version\":.*/\"version\":\"${{ steps.split_version.outputs.version }}\"\,/' ./package.json
 
       - name: Install Dependencies
         run: bun install
