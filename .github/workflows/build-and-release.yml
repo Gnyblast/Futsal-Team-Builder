@@ -70,6 +70,10 @@ jobs:
           name: angular-build
           path: ./dist
 
+      - name: Compress artifacts
+        run: |
+          zip --junk-paths futsal-team-builder.zip ./dist
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -93,8 +97,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: .
-          asset_name: dist
+          asset_path: ./futsal-team-builder.zip
+          asset_name: futsal-team-builder-${{ steps.split_version.outputs.version }}.zip
           asset_content_type: application/octet-stream
 
       - name: Recreate latest tag
