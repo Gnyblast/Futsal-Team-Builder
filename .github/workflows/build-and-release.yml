@@ -67,7 +67,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: angular-build
-          path: ./dist
+          path: ./angular-build.zip
 
       - name: Create Release
         id: create_release
