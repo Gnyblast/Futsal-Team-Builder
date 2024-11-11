@@ -44,6 +44,7 @@ jobs:
         with:
           name: angular-build
           path: ./dist
+          overwrite: true
 
   release:
     name: Create GitHub Release
