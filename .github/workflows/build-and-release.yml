@@ -8,11 +8,17 @@ on:
 jobs:
   build:
     name: Build project
-    runs-on: 20-alpine
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup Node.js $
+        uses: actions/setup-node@v3
 
       - name: Install Bun
         uses: oven-sh/setup-bun@v2
