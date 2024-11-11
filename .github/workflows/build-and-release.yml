@@ -70,6 +70,9 @@ jobs:
           name: angular-build
           path: ./dist
 
+      - name: Display structure of downloaded files
+        run: ls -lhtra
+
       - name: Compress artifacts
         run: |
           zip --junk-paths futsal-team-builder.zip ./dist
@@ -86,9 +89,6 @@ jobs:
             ${{ steps.git_cliff.outputs.content }}
           draft: false
           prerelease: false
-
-      - name: Display structure of downloaded files
-        run: ls -lhtra
 
       - name: Upload Release Asset
         id: upload-release-asset
