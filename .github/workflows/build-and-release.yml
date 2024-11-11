@@ -42,7 +42,7 @@ jobs:
       - name: Archive dist
         uses: actions/upload-artifact@v4
         with:
-          name: angular-build
+          name: angular-build.zip
           path: ./dist
 
   release:
@@ -66,8 +66,8 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
-          name: angular-build
-          path: ./angular-build.zip
+          name: angular-build.zip
+          path: ./
 
       - name: Create Release
         id: create_release
@@ -89,8 +89,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist
-          asset_name: angular-app.zip
+          asset_path: ./
+          asset_name: futsal-team-builder.zip
           asset_content_type: application/zip
 
       - name: Recreate latest tag
