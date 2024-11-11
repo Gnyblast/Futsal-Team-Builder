@@ -1,234 +1,238 @@
 .container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding-top: 20px;
-    min-height: 100%;
-  }
-  
-  .pre-generate-player-forms {
-    display: flex;
-    flex-direction: row;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+  min-height: 100%;
+}
+
+.pre-generate-player-forms {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  width: 315px;
+}
+
+.add-new-form-container {
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.container form {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.results {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  margin-bottom: 50px;
+}
+
+.each-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.results-details {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.each-player {
+  width: 600px;
+  min-width: 30%;
+  max-width: 80%;
+  flex-basis: 25px;
+  gap: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.center-content {
+  justify-content: center;
+}
+
+.each-player b {
+  flex-basis: 5%;
+}
+
+.each-player .position {
+  flex-basis: 30%;
+}
+
+.each-player .player-name {
+  flex-basis: 35%;
+}
+
+.each-player span {
+  flex-basis: 10%;
+}
+
+.solid {
+  margin-top: 20px;
+  border-top: 2px solid #bbb;
+  width: 100%;
+}
+
+#repoInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+#version {
+  font-size: 12px;
+  color: rgb(139, 139, 139);
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  height: 0px !important;
+}
+
+::ng-deep ngx-cookie-consent .custombanner .ngx-cc__cookie-controls a,
+::ng-deep ngx-cookie-consent .custombanner .ngx-cc__cookie-controls span {
+  color: #f44336 !important;
+}
+
+::ng-deep ngx-cookie-consent .custombanner .cc-accept-all {
+  background-color: #ffd740 !important;
+  border: none !important;
+  color: #616161 !important;
+}
+
+::ng-deep ngx-cookie-consent .custombanner .cc-deny,
+::ng-deep ngx-cookie-consent .custombanner .cc-accept-some {
+  background-color: #eee !important;
+  color: #616161 !important;
+}
+
+::ng-deep ngx-cookie-consent .custombanner .cc-deny:hover,
+::ng-deep ngx-cookie-consent .custombanner .cc-accept-some:hover {
+  color: #616161 !important;
+  background-color: #ffd740 !important;
+}
+
+::ng-deep ngx-cookie-consent .opener {
+  background-color: #ffd740 !important;
+  border: none !important;
+}
+
+::ng-deep ngx-cookie-consent .opener path {
+  fill: #616161 !important;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .container {
     gap: 20px;
-    align-items: center;
-    justify-content: center;
-    width: 315px;
   }
-  
-  .add-new-form-container {
-    height: 100px;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    align-items: center;
-    justify-content: center;
-  }
-  
+
   .container form {
-    width: 90%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .button-container {
-    display: flex;
-    flex-direction: row;
-    width: 90%;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .results {
-    width: 90%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 50px;
-    margin-bottom: 50px;
-  }
-  
-  .each-result {
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
   }
-  
-  .results-details {
+
+  .container .dividers {
     width: 100%;
-    display: flex;
-    flex-direction: row;
+  }
+
+  .results {
+    flex-direction: column;
+  }
+
+  .each-result {
+    width: 100%;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .container {
     gap: 20px;
-    align-items: center;
-    justify-content: center;
   }
-  
-  .each-player {
-    width: 600px;
-    min-width: 30%;
-    max-width: 80%;
-    flex-basis: 25px;
-    gap: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
+
+  .container form {
+    flex-direction: column;
   }
-  
-  .center-content {
-    justify-content: center;
-  }
-  
-  .each-player b {
-    flex-basis: 5%;
-  }
-  
-  .each-player .position {
-    flex-basis: 30%;
-  }
-  
-  .each-player .player-name {
-    flex-basis: 35%;
-  }
-  
-  .each-player span {
-    flex-basis: 10%;
-  }
-  
-  .solid {
-    margin-top: 20px;
-    border-top: 2px solid #bbb;
+
+  .container .dividers {
     width: 100%;
   }
-  
-  #repoInfo {
-    display: flex;
+
+  .results {
+    flex-direction: column;
+  }
+
+  .each-result {
+    width: 100%;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .container {
+    gap: 0px;
+  }
+
+  .container form {
     flex-direction: row;
-    gap: 10px;
-    margin-top: 20px;
   }
-  
-  ::ng-deep .mat-mdc-form-field-subscript-wrapper {
-    height: 0px !important;
+
+  .container .dividers {
+    display: none;
   }
-  
-  ::ng-deep ngx-cookie-consent .custombanner .ngx-cc__cookie-controls a,
-  ::ng-deep ngx-cookie-consent .custombanner .ngx-cc__cookie-controls span {
-    color: #f44336 !important;
+
+  .results {
+    flex-direction: row;
   }
-  
-  ::ng-deep ngx-cookie-consent .custombanner .cc-accept-all {
-    background-color: #ffd740 !important;
-    border: none !important;
-    color: #616161 !important;
+
+  .each-result {
+    width: 50%;
   }
-  
-  ::ng-deep ngx-cookie-consent .custombanner .cc-deny,
-  ::ng-deep ngx-cookie-consent .custombanner .cc-accept-some {
-    background-color: #eee !important;
-    color: #616161 !important;
-  }
-  
-  ::ng-deep ngx-cookie-consent .custombanner .cc-deny:hover,
-  ::ng-deep ngx-cookie-consent .custombanner .cc-accept-some:hover {
-    color: #616161 !important;
-    background-color: #ffd740 !important;
-  }
-  
-  ::ng-deep ngx-cookie-consent .opener {
-    background-color: #ffd740 !important;
-    border: none !important;
-  }
-  
-  ::ng-deep ngx-cookie-consent .opener path {
-    fill: #616161 !important;
-  }
-  
-  /* Extra small devices (phones, 600px and down) */
-  @media only screen and (max-width: 600px) {
-    .container {
-      gap: 20px;
-    }
-  
-    .container form {
-      flex-direction: column;
-    }
-  
-    .container .dividers {
-      width: 100%;
-    }
-  
-    .results {
-      flex-direction: column;
-    }
-  
-    .each-result {
-      width: 100%;
-    }
-  }
-  
-  /* Small devices (portrait tablets and large phones, 600px and up) */
-  @media only screen and (min-width: 600px) {
-    .container {
-      gap: 20px;
-    }
-  
-    .container form {
-      flex-direction: column;
-    }
-  
-    .container .dividers {
-      width: 100%;
-    }
-  
-    .results {
-      flex-direction: column;
-    }
-  
-    .each-result {
-      width: 100%;
-    }
-  }
-  
-  /* Medium devices (landscape tablets, 768px and up) */
-  @media only screen and (min-width: 768px) {
-    .container {
-      gap: 0px;
-    }
-  
-    .container form {
-      flex-direction: row;
-    }
-  
-    .container .dividers {
-      display: none;
-    }
-  
-    .results {
-      flex-direction: row;
-    }
-  
-    .each-result {
-      width: 50%;
-    }
-  }
-  
-  /* Large devices (laptops/desktops, 992px and up) */
-  @media only screen and (min-width: 992px) {
-  }
-  
-  /* Extra large devices (large laptops and desktops, 1200px and up) */
-  @media only screen and (min-width: 1200px) {
-  }
-  
-  /* Extra large devices (large laptops and desktops, 1700px and up) */
-  @media only screen and (min-width: 1700px) {
-  }
-  
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1700px and up) */
+@media only screen and (min-width: 1700px) {
+}

@@ -4,6 +4,7 @@ import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {NgxCookieManagerService} from "@localia/ngx-cookie-consent";
 import {skip, Subscription} from "rxjs";
+import {version} from "../../../../package.json";
 import * as testPlayers from "../../../assets/test_players.json";
 import {Positions} from "../../enums/positions.enum";
 import {Player} from "../../interfaces/IPlayer";
@@ -32,6 +33,7 @@ export class MainComponent implements OnInit, OnDestroy {
   protected teamsAlternate: Teams = {} as Teams;
   protected hidePlayerRatings: boolean = false;
   protected forcedBalance: boolean = false;
+  protected version: string = version;
 
   protected playerForms: FormGroup = new FormGroup({
     players: new FormArray<FormGroup>([]),
