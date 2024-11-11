@@ -58,7 +58,7 @@ jobs:
           fetch-depth: 0
 
       - name: Generate a changelog
-        uses: orhun/git-cliff-action@v3
+        uses: orhun/git-cliff-action@v4
         id: git_cliff
         with:
           config: cliff.toml
@@ -90,7 +90,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./
+          asset_path: ./angular-build.zip
           asset_name: futsal-team-builder.zip
           asset_content_type: application/zip
 
