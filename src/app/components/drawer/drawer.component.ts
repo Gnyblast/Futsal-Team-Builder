@@ -16,9 +16,10 @@ export class DrawerComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   private playersSubs: Subscription = new Subscription();
   protected playerList: PlayerContainer = {} as PlayerContainer;
+  protected isFetchingPlayers: boolean = false;
 
   constructor(
-    private authService: AuthService,
+    protected authService: AuthService,
     private dialog: MatDialog,
     private firestoreService: FirestoreService,
     private drawerService: DrawerService,
@@ -32,21 +33,21 @@ export class DrawerComponent implements OnInit, OnDestroy {
           this.dialog.closeAll();
 
           if (this.authService.user) {
-            this.playersSubs = this.firestoreService
-              .getPlayersListSubs(this.authService.user.uid)
-              .subscribe((val) => {
-                if (val) {
-                  this.playerList = val;
+            this.isFetchingPlayers = true;
+            this.playersSubs = this.firestoreService.getPlayersListSubs(this.authService.user.uid).subscribe((val) => {
+              this.isFetchingPlayers = false;
+              if (val) {
+                this.playerList = val;
 
-                  this.playersService.setDBPlayers(
-                    this.playerList["players"].map((player) => {
-                      return player.name;
-                    }),
-                  );
+                this.playersService.setDBPlayers(
+                  this.playerList["players"].map((player) => {
+                    return player.name;
+                  }),
+                );
 
-                  this.playersService.setPlayersDBList(val);
-                }
-              });
+                this.playersService.setPlayersDBList(val);
+              }
+            });
           }
           return;
         }

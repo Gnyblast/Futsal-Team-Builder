@@ -3,6 +3,7 @@ import {User} from "@angular/fire/auth";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {AuthService} from "../../services/auth.service";
+import {DrawerService} from "../../services/drawer.service";
 
 @Component({
   selector: "app-login",
@@ -25,7 +26,7 @@ export class LoginComponent {
     email: new FormControl<string>("", [Validators.required, Validators.email]),
   });
 
-  constructor(private authService: AuthService, private dialog: MatDialog) {}
+  constructor(private authService: AuthService, private dialog: MatDialog, private drawerService: DrawerService) {}
 
   public loginWithGooogle(): void {
     this.loggingIn = true;
@@ -48,24 +49,20 @@ export class LoginComponent {
     }
 
     this.loggingIn = true;
-    this.authService
-      .signIn(this.loginForm.value.email, this.loginForm.value.password)
-      .then((creds) => {
-        this.loggingIn = false;
-        if (!creds.user) {
-          this.dialogResponse = "Invalid credentials!";
-          return;
-        }
+    this.authService.signIn(this.loginForm.value.email, this.loginForm.value.password).then((creds) => {
+      this.loggingIn = false;
+      if (!creds.user) {
+        this.dialogResponse = "Invalid credentials!";
+        return;
+      }
 
-        if (!creds.user.emailVerified) {
-          this.notVerified = true;
-          this.user = creds.user;
-          this.dialogResponse = "Verify your email address!";
-          return;
-        }
-
-        this.dialog.closeAll();
-      });
+      if (!creds.user.emailVerified) {
+        this.notVerified = true;
+        this.user = creds.user;
+        this.dialogResponse = "Verify your email address!";
+        return;
+      }
+    });
   }
 
   public resetPassword(): void {

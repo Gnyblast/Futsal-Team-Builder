@@ -148,63 +148,42 @@ export class MainComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         let resultsHeight = document.querySelector<HTMLElement>(".results")?.offsetHeight;
         let generateButtonPosition = document.querySelector<HTMLElement>("#generate")?.offsetTop;
-        window.scrollTo(
-          0,
-          (generateButtonPosition ? generateButtonPosition : 0) -
-            (resultsHeight ? resultsHeight : 0) / 5,
-        );
+        window.scrollTo(0, (generateButtonPosition ? generateButtonPosition : 0) - (resultsHeight ? resultsHeight : 0) / 5);
       }, 200);
     }
   }
 
   protected generateTeamsNotForceBalanced(): void {
     console.log("Not forced");
-    this.teams = this.teamGenereateService.generate(
-      this.playerForms.controls["players"] as FormArray,
-    );
+    this.teams = this.teamGenereateService.generate(this.playerForms.controls["players"] as FormArray);
 
-    this.teamsAlternate = this.teamGenereateService.generate(
-      this.playerForms.controls["players"] as FormArray,
-    );
+    this.teamsAlternate = this.teamGenereateService.generate(this.playerForms.controls["players"] as FormArray);
 
     while (
-      [...this.teams.TeamA.squad].sort().join(",") ===
-        [...this.teamsAlternate.TeamA.squad].sort().join(",") ||
-      [...this.teams.TeamA.squad].sort().join(",") ===
-        [...this.teamsAlternate.TeamB.squad].sort().join(",")
+      [...this.teams.TeamA.squad].sort().join(",") === [...this.teamsAlternate.TeamA.squad].sort().join(",") ||
+      [...this.teams.TeamA.squad].sort().join(",") === [...this.teamsAlternate.TeamB.squad].sort().join(",")
     ) {
-      this.teamsAlternate = this.teamGenereateService.generate(
-        this.playerForms.controls["players"] as FormArray,
-      );
+      this.teamsAlternate = this.teamGenereateService.generate(this.playerForms.controls["players"] as FormArray);
     }
   }
 
   protected generateTeamsForceBalanced(): void {
     console.log("Forced");
 
-    this.teams = this.teamGenereateService.generate(
-      this.playerForms.controls["players"] as FormArray,
-    );
+    this.teams = this.teamGenereateService.generate(this.playerForms.controls["players"] as FormArray);
 
-    this.teamsAlternate = this.teamGenereateService.generate(
-      this.playerForms.controls["players"] as FormArray,
-    );
+    this.teamsAlternate = this.teamGenereateService.generate(this.playerForms.controls["players"] as FormArray);
 
     for (let i = 0; i < 100; i++) {
       let diff = Math.abs(this.teams.TeamA.totalScore - this.teams.TeamB.totalScore);
       let avarage = (this.teams.TeamA.totalScore + this.teams.TeamB.totalScore) / 2;
       let percentageDiff = (diff / avarage) * 100;
 
-      let diffAlternate = Math.abs(
-        this.teamsAlternate.TeamA.totalScore - this.teamsAlternate.TeamB.totalScore,
-      );
-      let avarageAlternate =
-        (this.teamsAlternate.TeamA.totalScore + this.teamsAlternate.TeamB.totalScore) / 2;
+      let diffAlternate = Math.abs(this.teamsAlternate.TeamA.totalScore - this.teamsAlternate.TeamB.totalScore);
+      let avarageAlternate = (this.teamsAlternate.TeamA.totalScore + this.teamsAlternate.TeamB.totalScore) / 2;
       let percentageDiffAlternate = (diffAlternate / avarageAlternate) * 100;
 
-      let teams = this.teamGenereateService.generate(
-        this.playerForms.controls["players"] as FormArray,
-      );
+      let teams = this.teamGenereateService.generate(this.playerForms.controls["players"] as FormArray);
 
       let diffNew = Math.abs(teams.TeamA.totalScore - teams.TeamB.totalScore);
       let avarageNew = (teams.TeamA.totalScore + teams.TeamB.totalScore) / 2;
@@ -241,18 +220,10 @@ export class MainComponent implements OnInit, OnDestroy {
   protected addNewPlayer(player?: Player | null): void {
     let form = new FormGroup({
       name: new FormControl<string | null>(player ? player.name : null, [Validators.required]),
-      position: new FormControl<string | null>(player ? player.position : null, [
-        Validators.required,
-      ]),
-      defenceRating: new FormControl<number | null>(player ? player.defenceRating : null, [
-        Validators.required,
-      ]),
-      attackRating: new FormControl<number | null>(player ? player.attackRating : null, [
-        Validators.required,
-      ]),
-      conditionRating: new FormControl<number | null>(player ? player.conditionRating : null, [
-        Validators.required,
-      ]),
+      position: new FormControl<string | null>(player ? player.position : null, [Validators.required]),
+      defenceRating: new FormControl<number | null>(player ? player.defenceRating : null, [Validators.required]),
+      attackRating: new FormControl<number | null>(player ? player.attackRating : null, [Validators.required]),
+      conditionRating: new FormControl<number | null>(player ? player.conditionRating : null, [Validators.required]),
     });
     (this.playerForms.controls["players"] as FormArray).push(form);
     this.numOfPlayers++;
@@ -275,9 +246,7 @@ export class MainComponent implements OnInit, OnDestroy {
         position: new FormControl<string | null>(player.position, [Validators.required]),
         defenceRating: new FormControl<number | null>(player.defenceRating, [Validators.required]),
         attackRating: new FormControl<number | null>(player.attackRating, [Validators.required]),
-        conditionRating: new FormControl<number | null>(player.conditionRating, [
-          Validators.required,
-        ]),
+        conditionRating: new FormControl<number | null>(player.conditionRating, [Validators.required]),
       });
       formArr.push(form);
     }
@@ -319,14 +288,9 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   protected isPlayerStatsChanged(index: number, formValid: boolean): boolean {
-    console.log(formValid);
     if (!formValid) return false;
     let player = this.playersService.getDBPlayerByPlayerIndex(index);
-    if (player)
-      return this.isPlayerChanged(
-        player,
-        ((this.playerForms.controls["players"] as FormArray).controls[index] as FormGroup).value,
-      );
+    if (player) return this.isPlayerChanged(player, ((this.playerForms.controls["players"] as FormArray).controls[index] as FormGroup).value);
 
     return false;
   }
@@ -341,15 +305,11 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   protected updatePlayer(index: number): void {
-    this.playersService.updateExistingPlayerOnDB(
-      ((this.playerForms.controls["players"] as FormArray).controls[index] as FormGroup).value,
-    );
+    this.playersService.updateExistingPlayerOnDB(((this.playerForms.controls["players"] as FormArray).controls[index] as FormGroup).value);
   }
 
   protected savePlayer(index: number): void {
-    this.playersService.addNewPlayerToDB(
-      ((this.playerForms.controls["players"] as FormArray).controls[index] as FormGroup).value,
-    );
+    this.playersService.addNewPlayerToDB(((this.playerForms.controls["players"] as FormArray).controls[index] as FormGroup).value);
   }
 
   protected openLoginDialog(): void {

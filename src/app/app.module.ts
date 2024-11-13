@@ -1,24 +1,25 @@
-import { NgModule } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { RouterModule } from "@angular/router";
+import {NgModule} from "@angular/core";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {BrowserModule} from "@angular/platform-browser";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {RouterModule} from "@angular/router";
 
-import { CoolGoogleButtonComponent } from "@angular-cool/social-login-buttons";
-import { initializeApp, provideFirebaseApp } from "@angular/fire/app";
-import { getAuth, provideAuth } from "@angular/fire/auth";
-import { getFirestore, provideFirestore } from "@angular/fire/firestore";
-import { CookieDetail, CookieItem, NgxCookieConsentModule } from "@localia/ngx-cookie-consent";
-import { NgxGoogleAnalyticsModule } from "ngx-google-analytics";
-import { environment } from "../environments/environment";
-import { AppComponent } from "./app.component";
-import { DrawerComponent } from "./components/drawer/drawer.component";
-import { LoginComponent } from "./components/login/login.component";
-import { MainComponent } from "./components/main/main.component";
-import { NavbarComponent } from "./components/navbar/navbar.component";
-import { RegisterComponent } from "./components/register/register.component";
-import { ValidateNameDirective } from "./directives/validate-name.directive";
-import { MaterialModule } from "./material.module";
+import {CoolGoogleButtonComponent} from "@angular-cool/social-login-buttons";
+import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
+import {getAuth, provideAuth} from "@angular/fire/auth";
+import {getFirestore, provideFirestore} from "@angular/fire/firestore";
+import {CookieDetail, CookieItem, NgxCookieConsentModule} from "@localia/ngx-cookie-consent";
+import {NgxGoogleAnalyticsModule} from "ngx-google-analytics";
+import {environment} from "../environments/environment";
+import {AppComponent} from "./app.component";
+import {ConfirmationComponent} from "./components/confirmation/confirmation.component";
+import {DrawerComponent} from "./components/drawer/drawer.component";
+import {LoginComponent} from "./components/login/login.component";
+import {MainComponent} from "./components/main/main.component";
+import {NavbarComponent} from "./components/navbar/navbar.component";
+import {RegisterComponent} from "./components/register/register.component";
+import {ValidateNameDirective} from "./directives/validate-name.directive";
+import {MaterialModule} from "./material.module";
 
 const cookieConfig = {
   showCookieDetails: false,
@@ -55,6 +56,7 @@ const cookieConfig = {
     MainComponent,
     DrawerComponent,
     ValidateNameDirective,
+    ConfirmationComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,7 @@ const cookieConfig = {
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     MaterialModule,
-    CoolGoogleButtonComponent
+    CoolGoogleButtonComponent,
   ],
   bootstrap: [AppComponent],
 })

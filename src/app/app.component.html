@@ -1,8 +1,6 @@
 <mat-drawer-container class="example-container" [hasBackdrop]="false">
   <mat-drawer #drawer [mode]="'over'">
-    @if (authService.isAuthenticated()) {
     <app-drawer></app-drawer>
-    }
   </mat-drawer>
   <mat-drawer-content>
     <ngx-cookie-consent></ngx-cookie-consent>

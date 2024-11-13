@@ -33,13 +33,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.authService.authTrigger().subscribe(() => {
         if (this.authService.isAuthenticated()) {
           this.dialog.closeAll();
+          this.drawerService.openDrawer();
 
           if (this.authService.user) {
-            this.playersSubs = this.firestoreService
-              .getPlayersListSubs(this.authService.user.uid)
-              .subscribe((val) => {
-                if (val) this.playerList = val;
-              });
+            this.playersSubs = this.firestoreService.getPlayersListSubs(this.authService.user.uid).subscribe((val) => {
+              if (val) this.playerList = val;
+            });
           }
           return;
         }
@@ -66,6 +65,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   protected logOut(): void {
     this.authService.signOut();
+    this.drawerService.closeDrawer();
   }
 
   protected openDrawer(): void {

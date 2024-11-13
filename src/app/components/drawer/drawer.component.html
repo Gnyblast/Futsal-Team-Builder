@@ -5,9 +5,13 @@
       <mat-icon>arrow_back</mat-icon>
     </button>
   </div>
-  @if(!playerList['players'] || playerList['players'].length < 1){
+  @if(isFetchingPlayers){
+  <div>Loading Players...</div>
+  } @if (!authService.isAuthenticated()) {
+  <div>You are not authenticated!</div>
+  } @if(authService.isAuthenticated() && !isFetchingPlayers && (!playerList['players'] || playerList['players'].length < 1)){
   <div>No players saved!</div>
-  } @else {
+  } @if(playerList['players'] && playerList['players'].length > 0 ) {
   <table>
     <tr>
       <th>Name</th>
@@ -25,11 +29,7 @@
       <td>{{player.defenceRating}}</td>
       <td>{{player.conditionRating}}</td>
       <td class="actions">
-        <button
-          mat-mini-fab
-          [disabled]="playersService.isPlayerExist(player.name)"
-          (click)="AddPlayerToPlayers(player)"
-        >
+        <button mat-mini-fab [disabled]="playersService.isPlayerExist(player.name)" (click)="AddPlayerToPlayers(player)">
           <mat-icon>keyboard_double_arrow_right</mat-icon>
         </button>
         <button mat-mini-fab color="warn" (click)="playersService.deletePlayerFromDB(player)">

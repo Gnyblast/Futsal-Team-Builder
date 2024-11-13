@@ -1,7 +1,10 @@
 import {Injectable} from "@angular/core";
+import {MatDialog} from "@angular/material/dialog";
 import {BehaviorSubject} from "rxjs";
+import {ConfirmationComponent} from "../components/confirmation/confirmation.component";
 import {Player, PlayerContainer} from "../interfaces/IPlayer";
 import {AuthService} from "./auth.service";
+import {ConfirmationDialogService} from "./confirmation-dialog.service";
 import {FirestoreService} from "./firestore.service";
 
 @Injectable({
@@ -13,7 +16,12 @@ export class PlayersService {
   private DBPlayers: string[] = [];
   private playersDBList: PlayerContainer = {"players": []} as PlayerContainer;
 
-  constructor(private firestoreService: FirestoreService, private authService: AuthService) {}
+  constructor(
+    private firestoreService: FirestoreService,
+    private authService: AuthService,
+    private dialog: MatDialog,
+    private confirmationDialogService: ConfirmationDialogService,
+  ) {}
 
   public setPlayersDBList(playersList: PlayerContainer): void {
     this.playersDBList = playersList;
@@ -109,12 +117,15 @@ export class PlayersService {
   }
 
   public deletePlayerFromDB(player: Player): void {
-    if (this.authService.user) {
-      let index = this.playersDBList["players"].findIndex((DBplayer) => {
-        return DBplayer.name === player.name;
-      });
-      this.playersDBList["players"].splice(index, 1);
-      this.firestoreService.setPlayersList(this.playersDBList, this.authService.user.uid);
-    }
+    this.dialog.open(ConfirmationComponent, {data: {"playerName": player.name}});
+    this.confirmationDialogService.willConfirmed().then((val) => {
+      if (this.authService.user && val) {
+        let index = this.playersDBList["players"].findIndex((DBplayer) => {
+          return DBplayer.name === player.name;
+        });
+        this.playersDBList["players"].splice(index, 1);
+        this.firestoreService.setPlayersList(this.playersDBList, this.authService.user.uid);
+      }
+    });
   }
 }

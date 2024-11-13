@@ -13,7 +13,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   @ViewChild("drawer") public drawer!: MatSidenav;
 
-  protected drawerState: boolean = false;
   constructor(private drawerService: DrawerService, protected authService: AuthService) {
     this.effectsList.push(
       effect(() => {
