@@ -107,17 +107,20 @@ export class PlayersService {
   }
 
   public updateExistingPlayerOnDB(player: Player): void {
-    if (this.authService.user) {
-      let index = this.playersDBList["players"].findIndex((DBplayer) => {
-        return DBplayer.name === player.name;
-      });
-      this.playersDBList["players"][index] = player;
-      this.firestoreService.setPlayersList(this.playersDBList, this.authService.user.uid);
-    }
+    this.dialog.open(ConfirmationComponent, {data: {"player": player, text: "Confirm update player:"}});
+    this.confirmationDialogService.willConfirmed().then((val) => {
+      if (this.authService.user && val) {
+        let index = this.playersDBList["players"].findIndex((DBplayer) => {
+          return DBplayer.name === player.name;
+        });
+        this.playersDBList["players"][index] = player;
+        this.firestoreService.setPlayersList(this.playersDBList, this.authService.user.uid);
+      }
+    });
   }
 
   public deletePlayerFromDB(player: Player): void {
-    this.dialog.open(ConfirmationComponent, {data: {"playerName": player.name}});
+    this.dialog.open(ConfirmationComponent, {data: {"player": player, text: "Confirm deletion of player:"}});
     this.confirmationDialogService.willConfirmed().then((val) => {
       if (this.authService.user && val) {
         let index = this.playersDBList["players"].findIndex((DBplayer) => {

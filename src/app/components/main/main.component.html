@@ -81,17 +81,19 @@
         } @else { @if(playersService.isDPPlayerExistByIndex($index)){
         <button
           mat-mini-fab
+          color="primary"
           title="Update Player"
           [disabled]="!isPlayerStatsChanged($index, getAsFormGroup(
             getAsFormArray(playerForms.controls['players']).controls[$index]
           ).valid)"
           (click)="updatePlayer($index)"
         >
-          <mat-icon>update</mat-icon>
+          <mat-icon>cloud_upload </mat-icon>
         </button>
         } @else {
         <button
           mat-mini-fab
+          title="Save Player"
           color="accent"
           [disabled]="!getAsFormGroup(
           getAsFormArray(playerForms.controls['players']).controls[$index]
@@ -210,5 +212,5 @@
       width="180"
       src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&slug=gnyblast&button_colour=F44336&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"
   /></a>
-  <span id="version"> V.{{version}} </span>
+  <span id="version">{{version}}</span>
 </div>

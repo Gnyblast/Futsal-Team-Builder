@@ -1,5 +1,6 @@
 import {Component, Inject, OnDestroy} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
+import {Player} from "../../interfaces/IPlayer";
 import {ConfirmationDialogService} from "../../services/confirmation-dialog.service";
 
 @Component({
@@ -10,7 +11,11 @@ import {ConfirmationDialogService} from "../../services/confirmation-dialog.serv
 export class ConfirmationComponent implements OnDestroy {
   private selected: boolean = false;
 
-  constructor(private dialog: MatDialog, private confirmationDialogService: ConfirmationDialogService, @Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(
+    private dialog: MatDialog,
+    private confirmationDialogService: ConfirmationDialogService,
+    @Inject(MAT_DIALOG_DATA) public data: {player: Player; text: string},
+  ) {}
 
   public ngOnDestroy(): void {
     if (!this.selected) this.response(false);
