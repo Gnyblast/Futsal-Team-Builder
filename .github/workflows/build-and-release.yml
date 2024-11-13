@@ -23,15 +23,9 @@ jobs:
       - name: Install Bun
         uses: oven-sh/setup-bun@v2
 
-      - name: Get version number
-        id: split_version
-        run: |
-          export plain_tag=$(TAG_NAME=${{ github.ref_name }}; echo "$TAG_NAME" | cut -d "v" -f 2)
-          echo "version=${plain_tag}" >> $GITHUB_OUTPUT
-
       - name: Set version number
         run: |
-          sed -i 's/\"version\":.*/\"version\":\"${{ steps.split_version.outputs.version }}\"\,/' ./package.json
+          sed -i 's/\"version\":.*/\"version\":\"${{ github.ref_name }}\"\,/' ./package.json
 
       - name: Install Dependencies
         run: bun install
