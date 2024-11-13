@@ -29,10 +29,10 @@
       <td>{{player.defenceRating}}</td>
       <td>{{player.conditionRating}}</td>
       <td class="actions">
-        <button mat-mini-fab [disabled]="playersService.isPlayerExist(player.name)" (click)="AddPlayerToPlayers(player)">
+        <button title="Add Player" mat-mini-fab [disabled]="playersService.isPlayerExist(player.name)" (click)="AddPlayerToPlayers(player)">
           <mat-icon>keyboard_double_arrow_right</mat-icon>
         </button>
-        <button mat-mini-fab color="warn" (click)="playersService.deletePlayerFromDB(player)">
+        <button title="Delete Player" mat-mini-fab color="warn" (click)="playersService.deletePlayerFromDB(player)">
           <mat-icon>close</mat-icon>
         </button>
       </td>
