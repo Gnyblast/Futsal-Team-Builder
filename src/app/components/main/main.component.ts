@@ -148,7 +148,8 @@ export class MainComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         let resultsHeight = document.querySelector<HTMLElement>(".results")?.offsetHeight;
         let generateButtonPosition = document.querySelector<HTMLElement>("#generate")?.offsetTop;
-        window.scrollTo(0, (generateButtonPosition ? generateButtonPosition : 0) - (resultsHeight ? resultsHeight : 0) / 5);
+        let content = document.querySelector<HTMLElement>("mat-drawer-content");
+        content?.scrollTo(0, (generateButtonPosition ? generateButtonPosition : 0) - (resultsHeight ? resultsHeight : 0) / 5);
       }, 200);
     }
   }
