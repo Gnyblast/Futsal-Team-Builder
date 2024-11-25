@@ -1,5 +1,13 @@
 /* Global Styles */
 
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  src: url(assets/Roboto-Medium.ttf) format("truetype");
+  font-display: swap;
+}
+
 * {
   font-family: "Roboto", Arial, sans-serif;
   box-sizing: border-box;
